@@ -58,7 +58,7 @@
                     @forelse($data as $d)
                     <tr>
                         <td>{{$d->title}}</td>
-                        <td>{{$d->cover}}</td>
+                        <td class="text-center"><img class="img-fluid img-thumbnail" src="{{ asset('storage/' . $d->cover) }}" alt="Image" style="width: 100px;"></td>
                         <td>
                         @foreach ($d->tags as $tag)
                           {{ $tag->nama }}
