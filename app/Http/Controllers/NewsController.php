@@ -16,8 +16,6 @@ class NewsController extends Controller
     public function index()
     {
         $data = News::with('tags')->get();
-
-
         return view("page.admin.news.index", ['data' => $data]);
     }
 
@@ -28,8 +26,12 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $tags = Tags::all();
-        return view("page.admin.news.create", compact('tags'));
+        try {
+            $tags = Tags::all();
+            return view("page.admin.news.create", compact('tags'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error while shows data news ' . $e->getMessage());
+        }
     }
 
     /**
