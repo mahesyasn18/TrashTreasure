@@ -168,6 +168,7 @@ class NewsController extends Controller
         }
     }
 
+
     /**
      * Update the specified resource in storage.
      *
@@ -215,6 +216,7 @@ class NewsController extends Controller
             return redirect()->back()->with('error', 'Error while updating data news: ' . $e->getMessage());
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
