@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
@@ -12,7 +11,7 @@ class News extends Model
 
     protected $fillable = ['title','cover','content'];
 
-    public function tag()
+    public function tags()
     {
         return $this->belongsToMany(Tags::class, 'news_tags', 'news_id', 'tag_id');
     }

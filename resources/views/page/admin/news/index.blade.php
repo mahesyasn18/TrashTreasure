@@ -53,7 +53,7 @@
                         <td>{{$d->title}}</td>
                         <td>{{$d->cover}}</td>
                         <td>
-                            @foreach($d->tag as $tag)
+                            @foreach($d->tags as $tag)
                                 {{$tag->nama}},
                             @endforeach
                         </td>
