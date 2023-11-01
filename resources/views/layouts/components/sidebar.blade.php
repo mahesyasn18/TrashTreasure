@@ -22,7 +22,16 @@ $links = [
                 "section_href" => route('akun.add')
             ]
         ]
+],
+[
+
+        "href" => route('news.index'),
+        "text" => "News",
+        "icon" => "fas fa-home",
+        "is_multi" => false
     ]
+
+
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp

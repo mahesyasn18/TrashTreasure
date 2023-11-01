@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\News;
 
 class NewsController extends Controller
 {
@@ -13,7 +14,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-
+        $data = News::all();
+        return view("page.admin.news.index", ['data' => $data]);
     }
 
     /**
