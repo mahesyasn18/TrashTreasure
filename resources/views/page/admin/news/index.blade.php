@@ -59,7 +59,11 @@
                     <tr>
                         <td>{{$d->title}}</td>
                         <td>{{$d->cover}}</td>
-                        <td>{{$d->tag->nama}}</td>
+                        <td>
+                        @foreach ($d->tags as $tag)
+                          {{ $tag->nama }}
+                        @endforeach
+                    </td>
                         <td>Tombol</td>
                     </tr>
                     @empty

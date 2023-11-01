@@ -24,12 +24,22 @@ $links = [
         ]
 ],
 [
-
-        "href" => route('news.index'),
-        "text" => "News",
-        "icon" => "fas fa-home",
-        "is_multi" => false
-    ]
+        "text" => "Kelola News",
+        "icon" => "fas fa-users",
+        "is_multi" => true,
+        "href" => [
+            [
+                "section_text" => "News",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('news.index')
+            ],
+            [
+                "section_text" => "Tambah Akun",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('news.create')
+            ]
+        ]
+]
 
 
 ];

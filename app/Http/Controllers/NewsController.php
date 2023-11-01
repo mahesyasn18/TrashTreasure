@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
+use App\Models\Tags;
 
 class NewsController extends Controller
 {
@@ -14,7 +15,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $data = News::all();
+        $data = News::with('tags')->get();
+
+
         return view("page.admin.news.index", ['data' => $data]);
     }
 
@@ -25,7 +28,8 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        $tags = Tags::all();
+        return view("page.admin.news.create", compact('tags'));
     }
 
     /**
@@ -36,7 +40,29 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'title' => 'required',
+                'content' => 'required',
+                'tags' => 'array',
+            ]);
+
+            $cover = $request->file('cover');
+            $coverPath = $cover->store('covers', 'public');
+
+            $news = new News();
+            $news->title = $request->input('title');
+            $news->cover = $coverPath;
+            $news->content = $request->input('content');
+            $news->save();
+
+            $tags = $request->input('tags');
+            $news->tags()->attach($tags);
+
+            return redirect()->route('news.index')->with('success', 'Data news succefully created!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error while create data news ' . $e->getMessage());
+        }
     }
 
     /**
