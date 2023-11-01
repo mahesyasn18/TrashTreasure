@@ -43,4 +43,5 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
         });
 
     Route::resource('news', NewsController::class);
+    Route::post('/news-list', [NewsController::class, 'getNewsData'])->name('news-list');
 });
