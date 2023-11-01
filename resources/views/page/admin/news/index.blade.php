@@ -32,13 +32,6 @@
                     title="Collapse">
                     <i class="fas fa-minus"></i>
                 </button>
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-card-widget="remove"
-                    title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
         </div>
         <div class="card-body p-0" style="margin: 20px">
@@ -59,11 +52,18 @@
                     <tr>
                         <td>{{$d->title}}</td>
                         <td>{{$d->cover}}</td>
-                        <td>{{$d->tag->nama}}</td>
-                        <td>Tombol</td>
+                        <td>
+                            @foreach($d->tag as $tag)
+                                {{$tag->nama}},
+                            @endforeach
+                        </td>
+                        <td>
+                            <a type="button" class="btn btn-warning" href="/dashboard/admin/news/{{$d->id}}"><i class="fas fa-edit"></i></a>
+                            <a type="button" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        </td>
                     </tr>
                     @empty
-                    <tr><td colspan="4">Data tidak ditemukan.</td></tr>
+                    <tr><td colspan="4" class="text-center">Data tidak ditemukan.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -81,4 +81,89 @@
 <script
     type="text/javascript"
     src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+                    $('#previewAkun').DataTable({
+                        "serverSide": true,
+                        "processing": true,
+                        "ajax": {
+                            "url": "/dashboard/admin/news",
+                            "dataType": "json",
+                            "type": "POST",
+                            "data": {
+                                _token: "{{csrf_token()}}"
+                            }
+                        },
+                        "columns": [
+                            {
+                                "data": "title"
+                            }, {
+                                "data": "cover"
+                            }, {
+                                "data": "options"
+                            }
+                        ],
+                        "language": {
+                            "decimal": "",
+                            "emptyTable": "Tak ada data yang tersedia pada tabel ini",
+                            "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                            "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
+                            "infoFiltered": "(difilter dari _MAX_ total entri)",
+                            "infoPostFix": "",
+                            "thousands": ",",
+                            "lengthMenu": "Tampilkan _MENU_ entri",
+                            "loadingRecords": "Loading...",
+                            "processing": "Sedang Mengambil Data...",
+                            "search": "Pencarian:",
+                            "zeroRecords": "Tidak ada data yang cocok ditemukan",
+                            "paginate": {
+                                "first": "Pertama",
+                                "last": "Terakhir",
+                                "next": "Selanjutnya",
+                                "previous": "Sebelumnya"
+                            },
+                            "aria": {
+                                "sortAscending": ": aktifkan untuk mengurutkan kolom ascending",
+                                "sortDescending": ": aktifkan untuk mengurutkan kolom descending"
+                            }
+                        }
+    
+                    });
+    
+                    // hapus data
+                    $('#previewAkun').on('click', '.hapusData', function () {
+                        var id = $(this).data("id");
+                        var url = $(this).data("url");
+                        Swal
+                            .fire({
+                                title: 'Apa kamu yakin?',
+                                text: "Kamu tidak akan dapat mengembalikan ini!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Ya, hapus!',
+                                cancelButtonText: 'Batal'
+                            })
+                            .then((result) => {
+                                if (result.isConfirmed) {
+                                    // console.log();
+                                    $.ajax({
+                                        url: url,
+                                        type: 'DELETE',
+                                        data: {
+                                            "id": id,
+                                            "_token": "{{csrf_token()}}"
+                                        },
+                                        success: function (response) {
+                                            // console.log();
+                                            Swal.fire('Terhapus!', response.msg, 'success');
+                                            $('#previewAkun').DataTable().ajax.reload();
+                                        }
+                                    });
+                                }
+                            })
+                    });
+            });
+    </script>
 @endsection

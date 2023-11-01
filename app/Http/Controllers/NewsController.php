@@ -14,7 +14,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $data = News::all();
+        $data = News::with('tag')->get();
         return view("page.admin.news.index", ['data' => $data]);
     }
 

@@ -15,6 +15,7 @@ class TagSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('tags')->truncate();
         DB::table('tags')->insert([
             ['nama' => 'Teknologi'],
             ['nama' => 'Tips and Trick'],

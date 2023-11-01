@@ -12,7 +12,7 @@ class Tags extends Model
     protected $fillable = ["nama"];
     public function news()
     {
-        return $this->hasMany(News::class, 'new_id');
+        return $this->belongsToMany(News::class, 'news_tags', 'tag_id', 'news_id');
     }
 
 }
