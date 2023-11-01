@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Tags;
 
 class NewsController extends Controller
@@ -86,8 +87,20 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $data = News::with('tags')->findOrFail($id);
+            $tags = Tags::all();
+
+            if (!$data) {
+                return redirect()->back()->with('error', 'Data news tidak ditemukan.');
+            }
+
+            return view("page.admin.news.edit", ['data' => $data, 'tags' => $tags]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error while showing news data: ' . $e->getMessage());
+        }
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -98,8 +111,45 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $news = News::find($id);
+
+            if (!$news) {
+                return redirect()->back()->with('error', 'Data news tidak ditemukan.');
+            }
+
+            $request->validate([
+                'title' => 'required',
+                'content' => 'required',
+                'tags' => 'array',
+            ]);
+
+            // Update the news data
+            $news->title = $request->input('title');
+            $news->content = $request->input('content');
+
+            if ($request->hasFile('cover')) {
+                // Handle the cover image update
+                $newCover = $request->file('cover');
+                $coverPath = $newCover->store('covers', 'public');
+
+                Storage::delete('public/' . $news->cover);
+                
+                $news->cover = $coverPath;
+            }
+
+            $news->save();
+
+            // Update the associated tags
+            $tags = $request->input('tags');
+            $news->tags()->sync($tags);
+
+            return redirect()->route('news.index')->with('success', 'Data news successfully updated!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error while updating data news: ' . $e->getMessage());
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -109,6 +159,20 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $news = News::find($id);
+
+            if (!$news) {
+                return redirect()->back()->with('error', 'Data news tidak ditemukan.');
+            }
+
+            Storage::delete('public/' . $news->cover);
+            $news->delete();
+
+            return redirect()->route('news.index')->with('success', 'Data news successfully deleted!');
+
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', 'Error while deleting data news: ' . $e->getMessage());
+        }
     }
 }

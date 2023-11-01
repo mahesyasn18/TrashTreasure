@@ -57,9 +57,15 @@
                                 {{$tag->nama}},
                             @endforeach
                         </td>
-                        <td>
-                            <a type="button" class="btn btn-warning" href="/dashboard/admin/news/{{$d->id}}"><i class="fas fa-edit"></i></a>
-                            <a type="button" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        <td class="btn-group " role="group">
+                            <a type="button" class="btn btn-warning" href="/dashboard/admin/news/{{$d->id}}/edit"><i class="fas fa-edit"></i></a>
+                            <form action="/dashboard/admin/news/{{$d->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @empty
