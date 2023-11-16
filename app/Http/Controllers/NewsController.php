@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\News;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Tags;
+use Yajra\Datatables\Datatables;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class NewsController extends Controller
 {
@@ -22,73 +25,32 @@ class NewsController extends Controller
 
     public function getNewsData(Request $request)
     {
-        $totalFilteredRecord = $totalDataRecord = $draw_val = "";
-        $columns_list = array(
-            0 => 'title',
-            1 => 'cover',
-            2 => 'tags',
-            3 => 'id',
-        );
-
-        $totalDataRecord = News::count();
-
-        $totalFilteredRecord = $totalDataRecord;
-
-        $limit_val = $request->input('length');
-        $start_val = $request->input('start');
-        $order_val = $columns_list[$request->input('order.0.column')];
-        $dir_val = $request->input('order.0.dir');
-
-        if (empty($request->input('search.value'))) {
-            $news_data = News::with('tags')
-                ->offset($start_val)
-                ->limit($limit_val)
-                ->orderBy($order_val, $dir_val)
-                ->get();
-        } else {
-            $search_text = $request->input('search.value');
-
-            $news_data = News::with('tags')
-                ->where('title', 'LIKE', "%{$search_text}%")
-                ->offset($start_val)
-                ->limit($limit_val)
-                ->orderBy($order_val, $dir_val)
-                ->get();
-
-            $totalFilteredRecord = News::where('title', 'LIKE', "%{$search_text}%")
-                ->orWhere('cover', 'LIKE', "%{$search_text}%")
-                ->count();
-        }
-
-        $data_val = array();
-        if (!empty($news_data)) {
-            foreach ($news_data as $news_val) {
-                $tags = $news_val->tags->pluck('nama')->implode(', '); 
-                $newsNestedData['title'] = $news_val->title;
-                $newsNestedData['cover'] = "<img class='img-fluid img-thumbnail' src='" . asset('storage/' . $news_val->cover) . "' alt='Image' style='width: 100px;'>";
-                $newsNestedData['tags'] = $tags;
-                $urlEdit = "news/{$news_val->id}/edit";
-                $urlDelete = "news/{$news_val->id}";
-                $newsNestedData['options'] = "
-                <a href='$urlEdit'>
-                    <i class='fas fa-edit fa-lg'></i>
-                </a>
-                <a style='border: none; background-color:transparent;' class='hapusData' data-id='$news_val->id' data-url='$urlDelete'>
-                    <i class='fas fa-trash fa-lg text-danger'></i>
-                </a>";
-                $data_val[] = $newsNestedData;
+        try{
+            if ($request->ajax()) {
+                $data = News::with('tags')->get();
+            
+                return Datatables::of($data)
+                    ->addColumn('id', function($row) {
+                        static $index = 0;
+                        $index++;
+                        return $index;
+                    })
+                    ->addColumn('cover', function ($news) {
+                        return "<img class='img-fluid img-thumbnail' src='" . asset('storage/' . $news->cover) . "' alt='Image' style='width: 100px;'>";
+                    })
+                    ->addColumn('tags', function ($news) {
+                        return $news->tags->pluck('nama')->implode(', ');
+                    })
+                    ->addColumn('options', function ($news) {
+                        return "<a href='news/{$news->id}/edit'><i class='fas fa-edit fa-lg'></i></a>
+                                <a style='border: none; background-color:transparent;' class='hapusData' data-id='$news->id' data-url='news/{$news->id}'><i class='fas fa-trash fa-lg text-danger'></i></a>";
+                    })
+                    ->rawColumns(['cover', 'options'])
+                    ->make(true);
             }
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', 'Error while showing data: ' . $e->getMessage());
         }
-
-        $draw_val = $request->input('draw');
-        $get_json_data = array(
-            "draw" => intval($draw_val),
-            "recordsTotal" => intval($totalDataRecord),
-            "recordsFiltered" => intval($totalFilteredRecord),
-            "data" => $data_val
-        );
-
-        return response()->json($get_json_data);
     }
 
     /**
@@ -129,7 +91,8 @@ class NewsController extends Controller
             $tags = $request->input('tags');
             $news->tags()->attach($tags);
 
-            return redirect()->route('news.index')->with('success', 'Data news succefully created!');
+            Alert::success('Berhasil', 'Data berhasil ditambah');
+            return redirect()->route('news.index');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error while create data news ' . $e->getMessage());
         }
@@ -211,9 +174,11 @@ class NewsController extends Controller
             $tags = $request->input('tags');
             $news->tags()->sync($tags);
 
-            return redirect()->route('news.index')->with('success', 'Data news successfully updated!');
+            Alert::success('Berhasil', 'Data berhasil diubah');
+            return redirect()->route('news.index');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error while updating data news: ' . $e->getMessage());
+            Alert::error('Error', 'Error while updating data news: ' . $e->getMessage());
+            return redirect()->back();
         }
     }
 
