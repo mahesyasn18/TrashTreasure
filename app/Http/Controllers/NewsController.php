@@ -236,7 +236,9 @@ class NewsController extends Controller
             Storage::delete('public/' . $news->cover);
             $news->delete();
 
-            return redirect()->route('news.index')->with('success', 'Data news successfully deleted!');
+            return response()->json([
+                'msg' => 'Data yang dipilih telah dihapus'
+            ]);
 
         }catch(\Exception $e){
             return redirect()->back()->with('error', 'Error while deleting data news: ' . $e->getMessage());
