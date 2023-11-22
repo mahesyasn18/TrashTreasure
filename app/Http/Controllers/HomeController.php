@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -38,7 +37,6 @@ class HomeController extends Controller
 
     public function updateprofile(Request $request)
     {
-        try{
             $usr = User::findOrFail(Auth::user()->id);
             if ($request->input('type') == 'change_profile') {
                 $this->validate($request, [
@@ -76,8 +74,5 @@ class HomeController extends Controller
                 ]);
                 return redirect()->route('profile')->with('status', 'Perubahan telah tersimpan');
             }
-        }catch(\Exception $e){
-            Alert::error('Error', 'Error while updating data user: ' . $e->getMessage());
-        }
     }
 }
