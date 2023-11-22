@@ -34,7 +34,7 @@ $links = [
                 "section_href" => route('news.index')
             ],
             [
-                "section_text" => "Tambah Akun",
+                "section_text" => "Tambah News",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('news.create')
             ]

@@ -42,7 +42,8 @@
         <script src="{{ asset('vendor/adminlte3/js/adminlte.min.js') }}"></script>
         <!-- AdminLTE for demo purposes -->
         {{-- <script src="../../dist/js/demo.js"></script> --}}
-
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
         @yield('script_footer')
     </body>
 </html>
