@@ -65,7 +65,24 @@ class DropPointController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'nama' => 'required',
+                'alamat' => 'required',
+            ]);
+
+
+
+            $dpoint = new DropPoint();
+            $dpoint->nama = $request->input('nama');
+            $dpoint->alamat = $request->input('alamat');
+            $dpoint->save();
+
+            Alert::success('Berhasil', 'Data berhasil ditambah');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error while create data sampah ' . $e->getMessage());
+        }
     }
 
     /**
@@ -99,7 +116,26 @@ class DropPointController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $request->validate([
+                'nama' => 'required',
+                'alamat' => 'required',
+            ]);
+    
+            $dpoint = DropPoint::find($id);
+            if (!$dpoint) {
+                return redirect()->back()->with('error', 'Data not found.');
+            }
+    
+            $dpoint->nama = $request->input('nama');
+            $dpoint->alamat = $request->input('alamat');
+            $dpoint->save();
+    
+            Alert::success('Berhasil', 'Data berhasil diupdate');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error while updating data sampah ' . $e->getMessage());
+        }
     }
 
     /**
@@ -110,6 +146,22 @@ class DropPointController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $dpoint = DropPoint::find($id);
+
+            if (!$dpoint) {
+                return redirect()->back()->with('error', 'Data Jenis Sampah tidak ditemukan.');
+            }
+
+
+            $dpoint->delete();
+
+            return response()->json([
+                'msg' => 'Data yang dipilih telah Dihapus'
+            ]);
+
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', 'Error while deleting data sampah: ' . $e->getMessage());
+        }
     }
 }

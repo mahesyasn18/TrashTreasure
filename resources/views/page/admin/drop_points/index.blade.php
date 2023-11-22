@@ -71,18 +71,19 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Drop Point</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form action="{{route("sampah.store")}}" method="post">
+          <form action="{{route("drop-point.store")}}" method="post">
             @csrf
             <div class="form-group">
-                <label for="exampleInputEmail1">Jenis Sampah</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Jenis Sampah" name="jenis_sampah">
-
+                <label for="exampleInputEmail1">Nama</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Drop Point" name="nama">
+                <label for="exampleInputEmail1">Alamat</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Alamat Drop Point" name="alamat">
               </div>
 
         </div>
@@ -108,13 +109,16 @@
                   </button>
               </div>
               <div class="modal-body">
-                  <form action="{{ route('sampah.update', $drop_point->id) }}" method="post">
+                  <form action="{{ route('drop-point.update', $drop_point->id) }}" method="post">
                       @csrf
                       @method('PUT')
                       <div class="form-group">
-                          <label for="exampleInputEmail1">Drop Point</label>
-                          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                              placeholder="Masukkan Jenis Sampah" name="jenis_sampah" value="{{ $drop_point->nama }}">
+                            <label for="exampleInputEmail1">Nama</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                              placeholder="Masukan Nama" name="nama" value="{{ $drop_point->nama }}">
+                            <label for="exampleInputEmail1">Alamat</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                  placeholder="Masukkan Alamat" name="alamat" value="{{ $drop_point->alamat }}">
                       </div>
               </div>
               <div class="modal-footer">
