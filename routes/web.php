@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AkunController;
+use App\Http\Controllers\DropPointController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -40,6 +41,8 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
     Route::post('/news-list', [NewsController::class, 'getNewsData'])->name('news-list');
 
     Route::resource('jenis/sampah', JenisSampahController::class);
-
     Route::post('/jenis/sampah-list', [JenisSampahController::class, 'getJenisSampah'])->name('sampah-list');
+
+    Route::resource('drop-point', DropPointController::class);
+    Route::post('/drop-point-list', [DropPointController::class, 'getDropPoint'])->name('drop-point-list');
 });

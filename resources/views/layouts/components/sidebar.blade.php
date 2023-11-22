@@ -47,6 +47,12 @@ $links = [
         "is_multi" => false
     ],
     [
+        "href" => route('drop-point.index'),
+        "text" => "Kelola Drop Point",
+        "icon" => "fas fa-circle",
+        "is_multi" => false
+    ],
+    [
         "href" => route('profile'),
         "text" => "Profil",
         "icon" => "fas fa-user",
