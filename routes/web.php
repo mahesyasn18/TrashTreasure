@@ -31,16 +31,8 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
         Route::post('update', [HomeController::class, 'updateprofile'])->name('profile.update');
     });
 
-    Route::controller(AkunController::class)
-        ->prefix('akun')
-        ->as('akun.')
-        ->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::post('showdata', 'dataTable')->name('dataTable');
-            Route::match(['get','post'],'tambah', 'tambahAkun')->name('add');
-            Route::match(['get','post'],'{id}/ubah', 'ubahAkun')->name('edit');
-            Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
-        });
+    Route::resource('users', AkunController::class);
+    Route::post('/users-list', [AkunController::class, 'getUsersData'])->name('users-list');
 
     Route::resource('news', NewsController::class);
     Route::post('/news-list', [NewsController::class, 'getNewsData'])->name('news-list');

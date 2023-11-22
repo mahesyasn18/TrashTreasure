@@ -1,4 +1,5 @@
-@extends('layouts.base_admin.base_dashboard') @section('judul', 'Tambah Akun')
+@extends('layouts.base_admin.base_dashboard') 
+@section('judul', 'Tambah Akun')
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -29,7 +30,7 @@
         {{ session('status') }}
       </div>
     @endif
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="{{route('users.store')}}">
         @csrf
         <div class="row">
             <div class="col-md-6">
@@ -77,33 +78,6 @@
                                 required="required"
                                 autocomplete="email">
                             @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="inputFoto">Foto Profil</label>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img
-                                        class="elevation-3"
-                                        id="prevImg"
-                                        src="{{ asset('vendor/adminlte3/img/user2-160x160.jpg') }}"
-                                        width="150px"/>
-                                </div>
-                                <div class="col-md-8">
-                                    <input
-                                        type="file"
-                                        id="inputFoto"
-                                        name="user_image"
-                                        accept="image/*"
-                                        class="form-control @error('user_image') is-invalid @enderror"
-                                        placeholder="Upload foto profil">
-                                </div>
-                            </div>
-
-                            @error('user_image')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -173,7 +147,8 @@
 </section>
 <!-- /.content -->
 
-@endsection @section('script_footer')
+@endsection 
+@section('script_footer')
 <script>
     inputFoto.onchange = evt => {
         const [file] = inputFoto.files

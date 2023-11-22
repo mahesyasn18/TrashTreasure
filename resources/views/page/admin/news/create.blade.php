@@ -90,6 +90,7 @@
                         data-select2-id="15"
                         tabindex="-1"
                         aria-hidden="true"
+                        required
                     >
                         @foreach ($tags as $tag)
                         <option value="{{$tag->id}}">{{$tag->nama}}</option>
@@ -99,8 +100,12 @@
             </div>
             <div class="form-group">
                 <label for="inputEmail">Content</label>
-                <textarea name="content" id="summernote" style="display: none;">
-                </textarea>
+                <textarea name="content" id="summernote" style="display: none;" <textarea name="content" class="form-control @error('content') is-invalid @enderror"></textarea></textarea>
+                @error('content')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputFile">File input</label>
@@ -112,6 +117,7 @@
                             class="custom-file-input"
                             id="exampleInputFile"
                             accept=".png, .jpg, .jpeg"
+                            required
                         />
                         <label class="custom-file-label" for="exampleInputFile"
                             >Choose file</label

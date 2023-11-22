@@ -72,7 +72,6 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        try {
             $request->validate([
                 'title' => 'required',
                 'content' => 'required',
@@ -93,9 +92,6 @@ class NewsController extends Controller
 
             Alert::success('Berhasil', 'Data berhasil ditambah');
             return redirect()->route('news.index');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error while create data news ' . $e->getMessage());
-        }
     }
 
     /**

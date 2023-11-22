@@ -1,18 +1,20 @@
-@extends('layouts.base_admin.base_dashboard') @section('judul', 'Halaman
-Profil') @section('content')
+@extends('layouts.base_admin.base_dashboard') 
+@section('judul', 'Halaman Profil')
+@section('content')
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Profile</h1>
+                <h1>Profil</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
                         <a href="{{route('home')}}">Beranda</a>
                     </li>
-                    <li class="breadcrumb-item active">Profile</li>
+                    <li class="breadcrumb-item active">Profil</li>
                 </ol>
             </div>
         </div>
@@ -29,34 +31,22 @@ Profil') @section('content')
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            @if (Auth::user()->user_image)
                             <img
-                                src="{{ Auth::user()->user_image }}"
+                                src="{{ Auth::user()->user_image ? asset('storage/profiles/' . Auth::user()->user_image) : asset('img/default.png') }}"
                                 class="profile-user-img img-fluid img-circle"
-                                alt="User Imagess">
-                            @else
-                            <img
-                                src="{{ asset('vendor/adminlte3/img/user2-160x160.jpg') }}"
-                                class="profile-user-img img-fluid img-circle"
-                                alt="User Imagess">
-                            @endif
-                            {{-- <img
-                                class="profile-user-img img-fluid img-circle"
-                                src="../../dist/img/user4-128x128.jpg"
-                                alt="User profile picture"> --}}
+                                alt="User Images">
                         </div>
 
                         <h3 class="profile-username text-center">{{Auth::user()->name}}</h3>
-
-                        <p class="text-muted text-center">Software Engineer</p>
+                        <p class="text-muted text-center">Pengguna</p>
 
                     </div>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                <!-- /.card -->
             </div>
             <!-- /.col -->
+
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header p-2">
@@ -73,6 +63,7 @@ Profil') @section('content')
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="active tab-pane" id="profil">
+
                                 @if(session('status'))
                                 <div class="alert alert-success alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -80,41 +71,42 @@ Profil') @section('content')
                                     {{ session('status') }}
                                 </div>
                                 @endif
-                                <b>Nama:</b>
-                                <br/>
-                                {{Auth::user()->name}}
-                                <br><br>
 
-                                <b>Email:</b><br>
-                                {{Auth::user()->email}}
+                                @if(session('failed'))
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-warning"></i> Gagal!</h4>
+                                    {{ session('failed') }}
+                                </div>
+                                @endif
 
-                                <br>
-                                <br>
-                                <b>Username:</b><br>
-                                <i>Please have customization as needed</i>
-
-                                <br>
-                                <br>
-                                <b>No Handphone</b>
-                                <br>
-                                <i>Please have customization as needed</i>
-
-                                <br><br>
-                                <b>Alamat</b>
-                                <br>
-                                <i>Please have customization as needed</i>
-
-                                <br>
-                                <br>
-                                <b>Roles:</b>
-                                <br>
-                                <i>Please have customization as needed</i>
-
-                                <br>
-                                <br>
-                                <b>Bergabung pada:</b>
-                                <br>
-                                @DateIndo(Auth::user()->created_at)
+                                <div class="row mb-3">
+                                    <div class="col-md-3 fw-bold">Nama</div>
+                                    <div class="col-md-9">{{Auth::user()->name}}</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-3 fw-bold">Email</div>
+                                    <div class="col-md-9">{{Auth::user()->email}}</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-3 fw-bold">No Telepon</div>
+                                    <div class="col-md-9">{{Auth::user()->phone_number ? Auth::user()->phone_number : 'Tidak ada'}}</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-3 fw-bold">No Rekening</div>
+                                    <div class="col-md-9">
+                                        {{Auth::user()->account_number ? Auth::user()->account_number : 'Tidak ada'}} -
+                                        {{Auth::user()->bank_id ? Auth::user()->bank_id : ''}}
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-3 fw-bold">Alamat</div>
+                                    <div class="col-md-9">{{Auth::user()->address ? Auth::user()->address : 'Tidak ada'}}</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-3 fw-bold">Bergabung pada</div>
+                                    <div class="col-md-9">@DateIndo(Auth::user()->created_at)</div>
+                                </div>
                             </div>
                             <!-- /.tab-pane -->
 
@@ -146,7 +138,7 @@ Profil') @section('content')
                                                             name="name"
                                                             class="form-control @error('name') is-invalid @enderror"
                                                             placeholder="Masukkan Nama"
-                                                            value="{{ Auth::user()->name }}"
+                                                            value="{{ Auth::user()->name ? Auth::user()->name : old('name') }}"
                                                             required="required"
                                                             autocomplete="name">
                                                         @error('name')
@@ -163,7 +155,7 @@ Profil') @section('content')
                                                             name="email"
                                                             class="form-control @error('email') is-invalid @enderror"
                                                             placeholder="Masukkan Email"
-                                                            value="{{ Auth::user()->email }}"
+                                                            value="{{ Auth::user()->email ? Auth::user()->email : old('email') }}"
                                                             required="required"
                                                             autocomplete="email">
                                                         @error('email')
@@ -173,24 +165,60 @@ Profil') @section('content')
                                                         @enderror
                                                     </div>
                                                     <div class="form-group">
+                                                        <label for="inputPhone">No Telepon</label>
+                                                        <input
+                                                            type="number"
+                                                            id="inputPhone"
+                                                            name="phone_number"
+                                                            class="form-control @error('phone_number') is-invalid @enderror"
+                                                            placeholder="Masukkan nomor telepon"
+                                                            value="{{ Auth::user()->phone_number ? Auth::user()->phone_number : old('phone_number') }}"
+                                                            required="required"
+                                                            autocomplete="phone_number">
+                                                        @error('phone_number')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputAccount">No Rekening</label>
+                                                        <input
+                                                            type="number"
+                                                            id="inputAccount"
+                                                            name="account_number"
+                                                            class="form-control @error('account_number') is-invalid @enderror"
+                                                            placeholder="Masukkan nomor rekening"
+                                                            value="{{ Auth::user()->account_number ? Auth::user()->account_number : old('account_number') }}"
+                                                            required="required"
+                                                            autocomplete="account_number">
+                                                        @error('account_number')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputAddress">Alamat</label>
+                                                        <textarea
+                                                            id="inputAddress"
+                                                            name="address"
+                                                            class="form-control"
+                                                            placeholder="Masukkan alamat"
+                                                            required="required">{{ Auth::user()->address ? Auth::user()->address : old('address') }}</textarea>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
                                                         <label for="inputFoto">Foto Profil</label>
                                                         <div class="row">
-                                                            <div class="col-md-4">
-                                                                @if (Auth::user()->user_image)
+                                                            <div class="col-md-6">
                                                                 <img
                                                                     class="elevation-3"
                                                                     id="prevImg"
-                                                                    src="{{ Auth::user()->user_image }}"
+                                                                    src="{{ Auth::user()->user_image ? asset('storage/profiles/' . Auth::user()->user_image) : asset('img/default.png') }}"
                                                                     width="150px"/>
-                                                                @else
-                                                                <img
-                                                                    class="elevation-3"
-                                                                    id="prevImg"
-                                                                    src="{{ asset('vendor/adminlte3/img/user2-160x160.jpg') }}"
-                                                                    width="80px"/>
-                                                                @endif
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-6">
                                                                 <input
                                                                     type="file"
                                                                     id="inputFoto"
@@ -198,6 +226,11 @@ Profil') @section('content')
                                                                     accept="image/*"
                                                                     class="form-control @error('user_image') is-invalid @enderror"
                                                                     placeholder="Upload foto profil">
+                                                                @error('user_image')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
                                                             </div>
                                                         </div>
 

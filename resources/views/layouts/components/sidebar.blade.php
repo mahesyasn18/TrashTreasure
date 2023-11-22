@@ -14,16 +14,16 @@ $links = [
             [
                 "section_text" => "Data Akun",
                 "section_icon" => "far fa-circle",
-                "section_href" => route('akun.index')
+                "section_href" => route('users.index')
             ],
             [
                 "section_text" => "Tambah Akun",
                 "section_icon" => "far fa-circle",
-                "section_href" => route('akun.add')
+                "section_href" => route('users.create')
             ]
         ]
-],
-[
+    ],
+    [
         "text" => "Kelola News",
         "icon" => "fas fa-users",
         "is_multi" => true,
@@ -34,14 +34,18 @@ $links = [
                 "section_href" => route('news.index')
             ],
             [
-                "section_text" => "Tambah Akun",
+                "section_text" => "Tambah Berita",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('news.create')
             ]
         ]
-]
-
-
+    ],
+    [
+        "href" => route('profile'),
+        "text" => "Profil",
+        "icon" => "fas fa-user",
+        "is_multi" => false
+    ],
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp

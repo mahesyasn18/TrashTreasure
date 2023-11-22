@@ -1,4 +1,5 @@
-@extends('layouts.base_admin.base_dashboard') @section('judul', 'Ubah Akun')
+@extends('layouts.base_admin.base_dashboard')
+@section('judul', 'Ubah Akun')
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -29,8 +30,9 @@
         {{ session('status') }}
       </div>
     @endif
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="{{ route('users.update', ['user' => $data->id]) }}">
         @csrf
+        @method('PUT')
         <div class="row">
             <div class="col-md-6">
                 <div class="card card-primary">
@@ -56,7 +58,7 @@
                                 name="name"
                                 class="form-control @error('name') is-invalid @enderror"
                                 placeholder="Masukkan Nama"
-                                value="{{ $usr->name }}"
+                                value="{{ $data->name }}"
                                 required="required"
                                 autocomplete="name">
                             @error('name')
@@ -73,45 +75,10 @@
                                 name="email"
                                 class="form-control @error('email') is-invalid @enderror"
                                 placeholder="Masukkan Email"
-                                value="{{ $usr->email }}"
+                                value="{{ $data->email }}"
                                 required="required"
                                 autocomplete="email">
                             @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="inputFoto">Foto Profil</label>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    @if ($usr->user_image)
-                                    <img
-                                        class="elevation-3"
-                                        id="prevImg"
-                                        src="{{ $usr->user_image }}"
-                                        width="150px"/>
-                                    @else
-                                    <img
-                                        class="elevation-3"
-                                        id="prevImg"
-                                        src="{{ asset('vendor/adminlte3/img/user2-160x160.jpg') }}"
-                                        width="150px"/>
-                                    @endif
-                                </div>
-                                <div class="col-md-8">
-                                    <input
-                                        type="file"
-                                        id="inputFoto"
-                                        name="user_image"
-                                        accept="image/*"
-                                        class="form-control @error('user_image') is-invalid @enderror"
-                                        placeholder="Upload foto profil">
-                                </div>
-                            </div>
-
-                            @error('user_image')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -146,7 +113,6 @@
                                 placeholder="Kata Sandi"
                                 class="form-control @error('password') is-invalid @enderror"
                                 name="password"
-                                required="required"
                                 autocomplete="new-password">
                             @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -162,7 +128,6 @@
                                 type="password"
                                 class="form-control"
                                 name="password_confirmation"
-                                required="required"
                                 autocomplete="new-password">
                         </div>
                     </div>
