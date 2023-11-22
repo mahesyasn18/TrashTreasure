@@ -41,9 +41,12 @@
         <script src="{{ asset('vendor/adminlte3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('vendor/adminlte3/js/adminlte.min.js') }}"></script>
-        <!-- DataTables -->
-        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-        <!-- Swal -->
+        <!-- AdminLTE for demo purposes -->
+        {{-- <script src="../../dist/js/demo.js"></script> --}}
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @include('sweetalert::alert')
 

@@ -28,7 +28,7 @@ class NewsController extends Controller
         try{
             if ($request->ajax()) {
                 $data = News::with('tags')->get();
-            
+
                 return Datatables::of($data)
                     ->addColumn('id', function($row) {
                         static $index = 0;

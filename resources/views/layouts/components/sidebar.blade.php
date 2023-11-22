@@ -25,7 +25,7 @@ $links = [
     ],
     [
         "text" => "Kelola News",
-        "icon" => "fas fa-users",
+        "icon" => "fas fa-newspaper",
         "is_multi" => true,
         "href" => [
             [
@@ -34,11 +34,17 @@ $links = [
                 "section_href" => route('news.index')
             ],
             [
-                "section_text" => "Tambah Berita",
+                "section_text" => "Tambah News",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('news.create')
             ]
         ]
+    ],
+    [
+        "href" => route('sampah.index'),
+        "text" => "Kelola Jenis Sampah",
+        "icon" => "fas fa-trash",
+        "is_multi" => false
     ],
     [
         "href" => route('profile'),
@@ -46,6 +52,7 @@ $links = [
         "icon" => "fas fa-user",
         "is_multi" => false
     ],
+
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp

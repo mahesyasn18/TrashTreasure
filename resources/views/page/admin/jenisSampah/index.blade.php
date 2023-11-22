@@ -1,5 +1,5 @@
 @extends('layouts.base_admin.base_dashboard')
-@section('judul', 'NEWS')
+@section('judul', 'Jenis Sampah')
 @section('script_head')
 @endsection
 
@@ -36,17 +36,17 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{$title}} Table</h3>
-            <div class="card-tools">
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-card-widget="collapse"
-                    title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
+
         </div>
         <div class="card-body p-0" style="margin: 20px">
+            <div class="text-right">
+               <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">
+                Tambah
+                </button>
+            </div>
+
+
             <table
                 id="myTable"
                 class="table table-striped table-bordered display"
@@ -54,9 +54,7 @@
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center w-25">Title</th>
-                        <th class="text-center">Cover</th>
-                        <th class="text-center">Tags</th>
+                        <th class="text-center w-25">Jenis Sampah</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -67,6 +65,66 @@
     </div>
     <!-- /.card -->
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{{route("sampah.store")}}" method="post">
+            @csrf
+            <div class="form-group">
+                <label for="exampleInputEmail1">Jenis Sampah</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Jenis Sampah" name="jenis_sampah">
+
+              </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  @foreach($data as $sampah)
+  <div class="modal fade" id="exampleModal{{$sampah->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{$sampah->id}}" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel{{$sampah->id}}">Update Jenis Sampah</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <form action="{{ route('sampah.update', $sampah->id) }}" method="post">
+                      @csrf
+                      @method('PUT')
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Jenis Sampah</label>
+                          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                              placeholder="Masukkan Jenis Sampah" name="jenis_sampah" value="{{ $sampah->jenis_sampah }}">
+                      </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Update changes</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  @endforeach
 </section>
 @endsection
 
@@ -77,7 +135,7 @@
             "serverSide": true,
             "processing": true,
             "ajax": {
-                "url": "{{ route('news-list') }}",
+                "url": "{{ route('sampah-list') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": {
@@ -86,15 +144,8 @@
             },
             "columns": [
                 { "data": "id", "className": "text-center"},
-                { "data": "title",
-                    render: function (data, type, row) {
-                        return data.replace(/\b\w/g, function (match) {
-                            return match.toUpperCase();
-                        });
-                    }
+                { "data": "jenis_sampah"
                 },
-                { "data": "cover", "className": "text-center" },
-                { "data": "tags" },
                 { "data": "options", "className": "text-center" }
             ],
         });
