@@ -25,7 +25,7 @@ $links = [
 ],
 [
         "text" => "Kelola News",
-        "icon" => "fas fa-users",
+        "icon" => "fas fa-newspaper",
         "is_multi" => true,
         "href" => [
             [
@@ -39,7 +39,14 @@ $links = [
                 "section_href" => route('news.create')
             ]
         ]
-]
+
+],
+[
+        "href" => route('sampah.index'),
+        "text" => "Kelola Jenis Sampah",
+        "icon" => "fas fa-trash",
+        "is_multi" => false
+    ],
 
 
 ];

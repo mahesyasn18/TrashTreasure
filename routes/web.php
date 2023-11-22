@@ -4,7 +4,9 @@ use App\Http\Controllers\AkunController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JenisSampahController;
 use App\Http\Controllers\NewsController;
+use App\Models\JenisSampah;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +46,8 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
 
     Route::resource('news', NewsController::class);
     Route::post('/news-list', [NewsController::class, 'getNewsData'])->name('news-list');
+
+    Route::resource('jenis/sampah', JenisSampahController::class);
+
+    Route::post('/jenis/sampah-list', [JenisSampahController::class, 'getJenisSampah'])->name('sampah-list');
 });
