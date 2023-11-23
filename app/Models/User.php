@@ -45,4 +45,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function penukaranpoin()
+    {
+        return $this->hasMany(PenukaranPoin::class, 'user_id');
+    }
 }

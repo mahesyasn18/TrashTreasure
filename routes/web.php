@@ -9,6 +9,7 @@ use App\Http\Controllers\JenisSampahController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TagsController;
 use App\Models\JenisSampah;
+use App\Models\PenukaranPoin;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,9 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
 
     Route::resource('drop-point', DropPointController::class);
     Route::post('/drop-point-list', [DropPointController::class, 'getDropPoint'])->name('drop-point-list');
+
+    Route::resource('penukaran-poin', PenukaranPoin::class);
+    Route::post('/penukaran-poin-list', [PenukaranPoin::class, 'getPenukaranPoin'])->name('penukaran-poin-list');
 
     Route::resource('news-category', TagsController::class);
     Route::post('/news-category-list', [TagsController::class, 'getNewsCategory'])->name('news-category-list');
