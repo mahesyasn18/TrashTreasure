@@ -22,8 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'user_image',
-        'phone_number', 
-        'account_number', 
+        'phone_number',
+        'account_number',
         'address',
     ];
 
@@ -45,4 +45,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function penukaranSampah()
+    {
+        return $this->hasMany(PenukaranSampah::class, 'user_id');
+    }
 }
