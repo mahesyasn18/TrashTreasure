@@ -42,7 +42,7 @@ class DropPointController extends Controller
 
                     ->addColumn('options', function ($dpoint) {
                         return "<a href='#' data-toggle='modal' data-target='#exampleModal{$dpoint->id}'><i class='fas fa-edit fa-lg'></i></a>
-                                <a style='border: none; background-color:transparent;' class='hapusData' data-id='$dpoint->id' data-url='sampah/{$dpoint->id}'><i class='fas fa-trash fa-lg text-danger'></i></a>";
+                                <a style='border: none; background-color:transparent;' class='hapusData' data-id='$dpoint->id' data-url='drop-point/{$dpoint->id}'><i class='fas fa-trash fa-lg text-danger'></i></a>";
                     })
                     ->rawColumns(['options'])
                     ->make(true);
