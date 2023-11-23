@@ -41,6 +41,12 @@ $links = [
         ]
     ],
     [
+        "text" => "Kelola Tags",
+        "icon" => "fas fa-newspaper",
+        "is_multi" => false,
+        "href" => route('news-category.index')
+    ],
+    [
         "href" => route('sampah.index'),
         "text" => "Kelola Jenis Sampah",
         "icon" => "fas fa-trash",
