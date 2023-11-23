@@ -23,6 +23,25 @@ $links = [
             ]
         ]
     ],
+
+
+    [
+        "text" => "Riwayat",
+        "icon" => "fas fa-history",
+        "is_multi" => true,
+        "href" => [
+            [
+                "section_text" => "Penukaran Sampah",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('riwayat-penukaran-sampah.index')
+            ],
+            [
+                "section_text" => "Penukaran Point",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('users.create')
+            ]
+        ]
+    ],
     [
         "text" => "Kelola News",
         "icon" => "fas fa-newspaper",

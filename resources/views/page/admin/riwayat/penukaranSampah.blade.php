@@ -45,10 +45,9 @@
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center w-25">Title</th>
-                        <th class="text-center">Cover</th>
-                        <th class="text-center">Tags</th>
-                        <th class="text-center">Action</th>
+                        <th class="text-center w-25">Nama Pembuang Sampah</th>
+                        <th class="text-center">Jumlah Sampah</th>
+                        <th class="text-center">Jumlah Poin</th>
                     </tr>
                 </thead>
             </table>
@@ -67,7 +66,7 @@
             "serverSide": true,
             "processing": true,
             "ajax": {
-                "url": "{{ route('news-list') }}",
+                "url": "{{ route('penukaran-sampah-list') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": {
@@ -76,47 +75,11 @@
             },
             "columns": [
                 { "data": "id", "className": "text-center"},
-                { "data": "title",
-                    render: function (data, type, row) {
-                        return data.replace(/\b\w/g, function (match) {
-                            return match.toUpperCase();
-                        });
-                    }
+                { "data": "user_id", "className": "text-center" },
+                { "data": "jumlah_sampah"
                 },
-                { "data": "cover", "className": "text-center" },
-                { "data": "tags" },
-                { "data": "options", "className": "text-center" }
+                { "data": "jumlah_point", "className": "text-center" },
             ],
-        });
-
-        // hapus data
-        $('#myTable').on('click', '.hapusData', function () {
-            var id = $(this).data("id");
-            var url = $(this).data("url");
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: "Anda tidak akan dapat mengembalikan ini!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: "#DC3545",
-                confirmButtonText: 'Ya, hapus!',
-                reverseButtons: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: url,
-                        type: 'DELETE',
-                        data: {
-                            "id": id,
-                            "_token": "{{csrf_token()}}"
-                        },
-                        success: function (response) {
-                            Swal.fire('Terhapus!', response.msg, 'success');
-                            $('#myTable').DataTable().ajax.reload();
-                        }
-                    });
-                }
-            })
         });
     });
 </script>
