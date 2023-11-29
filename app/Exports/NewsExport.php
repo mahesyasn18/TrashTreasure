@@ -12,6 +12,7 @@ use Carbon\Carbon;
 
 class NewsExport implements FromCollection, WithMapping, WithHeadings, WithDrawings
 {
+    private $id = 1;
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -28,9 +29,8 @@ class NewsExport implements FromCollection, WithMapping, WithHeadings, WithDrawi
     */
     public function map($item): array
     {
-        $id = 1;
         return [
-            $id++,
+            $this->id++,
             ucwords($item->title),
             $item->tags->pluck('nama')->implode(', '),
             $item->cover,
