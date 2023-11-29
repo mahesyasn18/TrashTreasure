@@ -65,7 +65,8 @@ class AkunController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        User::create([
+        User::create([ 
+            'role_user_id' => 1,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
