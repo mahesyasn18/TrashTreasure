@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RiwayatPenukaranSampahExport;
 use App\Models\PenukaranSampah;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class PenukaranSampahController extends Controller
@@ -105,5 +107,10 @@ class PenukaranSampahController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function export()
+    {
+        return Excel::download(new RiwayatPenukaranSampahExport, 'users.xlsx');
     }
 }
