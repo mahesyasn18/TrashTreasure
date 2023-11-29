@@ -57,6 +57,6 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
     Route::post('/news-category-list', [TagsController::class, 'getNewsCategory'])->name('news-category-list');
 
     Route::resource('riwayat-penukaran-sampah', PenukaranSampahController::class);
-    Route::get('/riwayat-penukaran-sampah-list', [PenukaranSampahController::class, 'getPenukaranSampah'])->name('penukaran-sampah-list');
-
+    Route::post('/riwayat-penukaran-sampah-list', [PenukaranSampahController::class, 'getPenukaranSampah'])->name('penukaran-sampah-list');
+    Route::get('/export', [PenukaranSampahController::class, 'export']);
 });
