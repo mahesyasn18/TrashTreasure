@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisSampahController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PenukaranPoinController;
 use App\Http\Controllers\PenukaranSampahController;
 use App\Http\Controllers\TagsController;
 use App\Models\JenisSampah;
@@ -49,12 +50,13 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
     Route::resource('drop-point', DropPointController::class);
     Route::post('/drop-point-list', [DropPointController::class, 'getDropPoint'])->name('drop-point-list');
 
-    Route::resource('penukaran-poin', PenukaranPoin::class);
-    Route::post('/penukaran-poin-list', [PenukaranPoin::class, 'getPenukaranPoin'])->name('penukaran-poin-list');
+    Route::resource('riwayat-penukaran-poin', PenukaranPoinController::class);
+    Route::post('/riwayat-penukaran-poin-list', [PenukaranPoinController::class, 'getPenukaranPoin'])->name('penukaran-poin-list');
 
     Route::resource('news-category', TagsController::class);
     Route::post('/news-category-list', [TagsController::class, 'getNewsCategory'])->name('news-category-list');
 
     Route::resource('riwayat-penukaran-sampah', PenukaranSampahController::class);
-    Route::post('/riwayat-penukaran-sampah-list', [PenukaranSampahController::class, 'getPenukaranSampah'])->name('penukaran-sampah-list');
+    Route::get('/riwayat-penukaran-sampah-list', [PenukaranSampahController::class, 'getPenukaranSampah'])->name('penukaran-sampah-list');
+
 });

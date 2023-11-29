@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PenukaranPoin extends Model
 {
     use HasFactory;
-    protected $fillable = ["user_id", "jumlah-poin", "jumlah_uang"];
+    protected $fillable = ['user_id', 'jumlah-poin', 'jumlah_uang'];
 
     public function user()
     {

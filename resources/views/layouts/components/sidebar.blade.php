@@ -36,9 +36,9 @@ $links = [
                 "section_href" => route('riwayat-penukaran-sampah.index')
             ],
             [
-                "section_text" => "Penukaran Point",
+                "section_text" => "Penukaran Poin",
                 "section_icon" => "far fa-circle",
-                "section_href" => route('users.create')
+                "section_href" => route('riwayat-penukaran-poin.index')
             ]
         ]
     ],

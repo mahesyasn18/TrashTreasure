@@ -15,9 +15,9 @@ class PenukaranPoinController extends Controller
      */
     public function index()
     {
-        $title = 'Drop Point';
-        $data = PenukaranPoin::all(); // or any other method to get the data
-        return view('page.admin.drop_points.index', compact('title', 'data'));
+        $title = 'Penukaran Poin';
+        // $data = PenukaranPoin::all(); // or any other method to get the data
+        return view('page.admin.riwayat.penukaranPoin', compact('title'));
     }
 
     public function getPenukaranPoin(Request $request)
@@ -35,7 +35,7 @@ class PenukaranPoinController extends Controller
 
                    ->addColumn('options', function ($poin) {
                        return "<a href='#' data-toggle='modal' data-target='#exampleModal{$poin->id}'><i class='fas fa-edit fa-lg'></i></a>
-                               <a style='border: none; background-color:transparent;' class='hapusData' data-id='$poin->id' data-url='drop-point/{$poin->id}'><i class='fas fa-trash fa-lg text-danger'></i></a>";
+                               <a style='border: none; background-color:transparent;' class='hapusData' data-id='$poin->id' data-url='riwayat-penukaran-poin/{$poin->id}'><i class='fas fa-trash fa-lg text-danger'></i></a>";
                    })
                    ->rawColumns(['options'])
                    ->make(true);
