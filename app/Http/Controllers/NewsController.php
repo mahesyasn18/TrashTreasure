@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Tags;
 use Yajra\Datatables\Datatables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\NewsExport;
 
 
 class NewsController extends Controller
@@ -204,5 +206,9 @@ class NewsController extends Controller
         }catch(\Exception $e){
             return redirect()->back()->with('error', 'Error while deleting data news: ' . $e->getMessage());
         }
+    }
+
+    public function exportNews(Request $request){
+        return Excel::download(new NewsExport, 'news.xlsx');
     }
 }

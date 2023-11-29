@@ -35,7 +35,10 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{$title}} Table</h3>
+            <div class="d-flex justify-content-between">
+                <h3 class="card-title">{{$title}} Table</h3>
+                <a href="{{route('export-news')}}" class="btn btn-success">Export <i class="far fa-file-excel"></i></a>
+            </div>
         </div>
         <div class="card-body p-0" style="margin: 20px">
             <table

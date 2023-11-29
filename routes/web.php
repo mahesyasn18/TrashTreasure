@@ -41,6 +41,7 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
 
     Route::resource('news', NewsController::class);
     Route::post('/news-list', [NewsController::class, 'getNewsData'])->name('news-list');
+    Route::get('/export-news', [NewsController::class, 'exportNews'])->name('export-news');
 
     Route::resource('jenis/sampah', JenisSampahController::class);
     Route::post('/jenis/sampah-list', [JenisSampahController::class, 'getJenisSampah'])->name('sampah-list');
