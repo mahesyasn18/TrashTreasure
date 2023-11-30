@@ -35,18 +35,21 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{$title}} Table</h3>
+            <div class="d-flex justify-content-between">
+                <h3 class="card-title">{{$title}} Table</h3>
+                <a href="{{route('export.drop')}}" class="btn btn-success">Export <i class="far fa-file-excel"></i></a>
+            </div>
 
         </div>
         <div class="card-body p-0" style="margin: 20px">
             <div class="text-right">
-               <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">
-                Tambah
-                </button>
-            </div>
-
-
+                <!-- Button trigger modal -->
+                 <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">
+                 Tambah
+                 </button>
+             </div>
+            
+                
             <table
                 id="myTable"
                 class="table table-striped table-bordered display"
