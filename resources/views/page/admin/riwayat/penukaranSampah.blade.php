@@ -36,8 +36,12 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{$title}} Table</h3>
+
         </div>
         <div class="card-body p-0" style="margin: 20px">
+            <div class="mb-4">
+                <a href="{{route('export.sampah')}}" target="" type="button" class="btn btn-info">Export To Excel</a>
+            </div>
             <table
                 id="myTable"
                 class="table table-striped table-bordered display"
