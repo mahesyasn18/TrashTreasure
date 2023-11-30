@@ -25,6 +25,7 @@ class User extends Authenticatable
         'phone_number',
         'account_number',
         'address',
+        'role_user_id'
     ];
 
     public function role()
@@ -51,7 +52,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function penukaranpoin()
+    public function penukaranPoin()
     {
         return $this->hasMany(PenukaranPoin::class, 'user_id');
     }

@@ -53,6 +53,7 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
 
     Route::resource('riwayat-penukaran-poin', PenukaranPoinController::class);
     Route::post('/riwayat-penukaran-poin-list', [PenukaranPoinController::class, 'getPenukaranPoin'])->name('penukaran-poin-list');
+    Route::get('/point/export', [PenukaranPoinController::class, 'export'])->name('export.point');
 
     Route::resource('news-category', TagsController::class);
     Route::post('/news-category-list', [TagsController::class, 'getNewsCategory'])->name('news-category-list');
