@@ -38,6 +38,9 @@
             <h3 class="card-title">{{$title}} Table</h3>
         </div>
         <div class="card-body p-0" style="margin: 20px">
+            <div class="mb-4">
+                <a href="{{route('export.point')}}" target="" type="button" class="btn btn-info">Export To Excel</a>
+            </div>
             <table
                 id="myTable"
                 class="table table-striped table-bordered display"
@@ -46,8 +49,8 @@
                     <tr>
                         <th class="text-center">No</th>
                         <th class="text-center w-25">Nama Pembuang Sampah</th>
-                        <th class="text-center">Jumlah Poin</th>
                         <th class="text-center">Jumlah Uang</th>
+                        <th class="text-center">Jumlah Poin</th>
                     </tr>
                 </thead>
             </table>
@@ -76,9 +79,9 @@
             "columns": [
                 { "data": "id", "className": "text-center"},
                 { "data": "user_id", "className": "text-center" },
-                { "data": "jumlah_sampah"
+                { "data": "jumlah_uang", "className": "text-center"
                 },
-                { "data": "jumlah_point", "className": "text-center" },
+                { "data": "jumlah_poin", "className": "text-center" },
             ],
         });
     });

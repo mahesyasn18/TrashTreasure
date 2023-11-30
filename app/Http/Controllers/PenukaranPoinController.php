@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RiwayatPenukaranPoinExport;
 use App\Models\PenukaranPoin;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class PenukaranPoinController extends Controller
@@ -24,7 +26,7 @@ class PenukaranPoinController extends Controller
     {
        try {
            if ($request->ajax()) {
-               $data = PenukaranPoin::get();
+            $data = PenukaranPoin::with("users")->get();
 
                return DataTables::of($data)
                    ->addColumn('id', function ($row) {
@@ -33,11 +35,11 @@ class PenukaranPoinController extends Controller
                        return $index;
                    })
 
-                   ->addColumn('options', function ($poin) {
-                       return "<a href='#' data-toggle='modal' data-target='#exampleModal{$poin->id}'><i class='fas fa-edit fa-lg'></i></a>
-                               <a style='border: none; background-color:transparent;' class='hapusData' data-id='$poin->id' data-url='riwayat-penukaran-poin/{$poin->id}'><i class='fas fa-trash fa-lg text-danger'></i></a>";
-                   })
-                   ->rawColumns(['options'])
+                   ->addColumn('user_id', function ($row) {
+                    return $row->users->name;
+                })->addColumn('jumlah_uang', function ($row) {
+                    return "Rp. ".$row->jumlah_uang;
+                })
                    ->make(true);
            }
        } catch (\Exception $e) {
@@ -110,5 +112,9 @@ class PenukaranPoinController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function export()
+    {
+        return Excel::download(new RiwayatPenukaranPoinExport, 'riwayatPoin.xlsx');
     }
 }
