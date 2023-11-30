@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RiwayatPenukaranPoinExport;
 use App\Models\PenukaranPoin;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class PenukaranPoinController extends Controller
@@ -110,5 +112,9 @@ class PenukaranPoinController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function export()
+    {
+        return Excel::download(new RiwayatPenukaranPoinExport, 'riwayatPoin.xlsx');
     }
 }

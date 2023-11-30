@@ -10,7 +10,7 @@ class PenukaranPoin extends Model
     use HasFactory;
     protected $fillable = ['user_id', 'jumlah_poin', 'jumlah_uang'];
 
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
