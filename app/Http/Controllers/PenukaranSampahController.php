@@ -111,6 +111,6 @@ class PenukaranSampahController extends Controller
 
     public function export()
     {
-        return Excel::download(new RiwayatPenukaranSampahExport, 'users.xlsx');
+        return Excel::download(new RiwayatPenukaranSampahExport, 'Rekap Penukaran Sampah Menjadi Poin.xlsx');
     }
 }
