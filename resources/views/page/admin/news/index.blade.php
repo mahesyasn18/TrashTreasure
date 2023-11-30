@@ -35,9 +35,27 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3 class="card-title">{{$title}} Table</h3>
-                <a href="{{route('export-news')}}" class="btn btn-success">Export <i class="far fa-file-excel"></i></a>
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h3 class="card-title">{{$title}} Table</h3>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6 text-right">
+                            <a href="{{route('export-news')}}" class="btn btn-success">Export <i class="far fa-file-excel"></i></a>
+                        </div>
+                        <div class="col-sm-6 ">
+                                <form action="{{route('import-news')}}" method="post" enctype="multipart/form-data" class="pt-3">
+                                    @csrf
+                                    <div class="input-group">
+                                        <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required name="file">
+                                        <button class="btn btn-warning " type="submit" id="inputGroupFileAddon04">Import <i class="far fa-file-excel"></i></button>
+                                      </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-body p-0" style="margin: 20px">
