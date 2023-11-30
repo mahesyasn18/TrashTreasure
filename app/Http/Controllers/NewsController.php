@@ -10,6 +10,7 @@ use Yajra\Datatables\Datatables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\NewsExport;
+use App\Imports\NewsImport;
 
 
 class NewsController extends Controller
@@ -38,7 +39,12 @@ class NewsController extends Controller
                         return $index;
                     })
                     ->addColumn('cover', function ($news) {
-                        return "<img class='img-fluid img-thumbnail' src='" . asset('storage/' . $news->cover) . "' alt='Image' style='width: 100px;'>";
+                        if($news->cover == 'cover.png'){
+                            $coverUrl = asset('img/default2.png');
+                        }else{
+                            $coverUrl = asset('storage/' . $news->cover);
+                        }
+                        return "<img class='img-fluid img-thumbnail' src='" . $coverUrl . "' alt='Image' style='width: 100px;'>";
                     })
                     ->addColumn('tags', function ($news) {
                         return $news->tags->pluck('nama')->implode(', ');
@@ -206,6 +212,12 @@ class NewsController extends Controller
         }catch(\Exception $e){
             return redirect()->back()->with('error', 'Error while deleting data news: ' . $e->getMessage());
         }
+    }
+
+    public function importNews(Request $request){
+        Excel::import(new NewsImport, 
+                      $request->file('file')->store('files'));
+        return redirect()->back();
     }
 
     public function exportNews(Request $request){

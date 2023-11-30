@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\DropPoint;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DropPointExport;
 use Yajra\DataTables\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DropPointController extends Controller
 {
@@ -163,5 +165,10 @@ class DropPointController extends Controller
         }catch(\Exception $e){
             return redirect()->back()->with('error', 'Error while deleting data sampah: ' . $e->getMessage());
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new DropPointExport, 'DropPoint.xlsx');
     }
 }
