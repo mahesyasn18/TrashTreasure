@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TagSeeder::class);
         $this->call(NewsSeeder::class);
         $this->call(NewsTagSeeder::class);
+        $this->call(DropPointSeeder::class);
         $this->call(RoleUserSeeder::class);
     }
 }
