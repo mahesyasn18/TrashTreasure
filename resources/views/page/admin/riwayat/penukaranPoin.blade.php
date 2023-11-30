@@ -49,8 +49,8 @@
                     <tr>
                         <th class="text-center">No</th>
                         <th class="text-center w-25">Nama Pembuang Sampah</th>
-                        <th class="text-center">Jumlah Poin</th>
                         <th class="text-center">Jumlah Uang</th>
+                        <th class="text-center">Jumlah Poin</th>
                     </tr>
                 </thead>
             </table>
@@ -79,7 +79,7 @@
             "columns": [
                 { "data": "id", "className": "text-center"},
                 { "data": "user_id", "className": "text-center" },
-                { "data": "jumlah_uang"
+                { "data": "jumlah_uang", "className": "text-center"
                 },
                 { "data": "jumlah_poin", "className": "text-center" },
             ],
