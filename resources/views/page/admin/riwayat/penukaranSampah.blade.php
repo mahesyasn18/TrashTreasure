@@ -35,12 +35,14 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{$title}} Table</h3>
+            <div class="d-flex justify-content-between">
+                <h3 class="card-title">{{$title}} Table</h3>
+                <a href="{{route('export.sampah')}}" class="btn btn-success">Export <i class="far fa-file-excel"></i></a>
+            </div>
 
         </div>
         <div class="card-body p-0" style="margin: 20px">
             <div class="mb-4">
-                <a href="{{route('export.sampah')}}" target="" type="button" class="btn btn-info">Export To Excel</a>
             </div>
             <table
                 id="myTable"
@@ -50,6 +52,7 @@
                     <tr>
                         <th class="text-center">No</th>
                         <th class="text-center w-25">Nama Pembuang Sampah</th>
+                        <th class="text-center w-25">Jenis Sampah</th>
                         <th class="text-center">Jumlah Sampah</th>
                         <th class="text-center">Jumlah Poin</th>
                     </tr>
@@ -80,6 +83,7 @@
             "columns": [
                 { "data": "id", "className": "text-center"},
                 { "data": "user_id", "className": "text-center" },
+                { "data": "jenis_sampah_id", "className": "text-center" },
                 { "data": "jumlah_sampah"
                 },
                 { "data": "jumlah_point", "className": "text-center" },

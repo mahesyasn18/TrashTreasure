@@ -24,6 +24,13 @@ $links = [
         ]
     ],
 
+    [
+        "href" => route('riwayat-penukaran-sampah.create'),
+        "text" => "Penukaran Sampah",
+        "icon" => "fas fa-window-restore",
+        "is_multi" => false
+    ],
+
 
     [
         "text" => "Riwayat",

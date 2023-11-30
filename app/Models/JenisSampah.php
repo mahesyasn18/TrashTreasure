@@ -11,4 +11,10 @@ class JenisSampah extends Model
 
     protected $fillable = ['jenis_sampah'];
 
+
+    public function penukaranSampah()
+    {
+        return $this->hasMany(PenukaranSampah::class, 'jenis_sampah_id');
+    }
+
 }
