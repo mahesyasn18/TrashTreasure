@@ -56,9 +56,7 @@ class PenukaranSampahController extends Controller
      */
     public function create()
     {
-        $user = User::where("role_user_id", 1)->get();
-        $jenissampah = JenisSampah::get();
-        return view('page.admin.penukaranSampah.create', compact('user', 'jenissampah'));
+
     }
 
     /**
@@ -69,32 +67,7 @@ class PenukaranSampahController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'nama' => 'required',
-                'jenis_sampah_id' => 'required',
-                'jumlah_sampah' => 'required',
-            ]);
 
-            $sampah = new PenukaranSampah();
-            $sampah->user_id = $request->input('user_id');
-            $sampah->jenis_sampah_id = $request->input('jenis_sampah_id');
-            $sampah->jumlah_sampah = $request->input('jumlah_sampah');
-            $poin = $request->input('jumlah_sampah');
-            if ($request->input('jenis_sampah_id') == 1) {
-                $sampah->jumlah_point = $poin * 2;
-            } elseif($request->input('jenis_sampah_id') == 2) {
-                $sampah->jumlah_point = $poin * 3;
-            }else{
-                $sampah->jumlah_point = $poin * 5;
-            }
-            $sampah->save();
-
-            Alert::success('Berhasil', 'Data berhasil ditambah');
-            return redirect()->to('/dashboard/admin/riwayat-penukaran-sampah');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error while create data sampah ' . $e->getMessage());
-        }
     }
 
     /**
