@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\RiwayatPenukaranSampahExport;
 use App\Models\JenisSampah;
 use App\Models\PenukaranSampah;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
-use Yajra\DataTables\DataTables;
 
-class PenukaranSampahController extends Controller
+class ProsesPenukaranSampah extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,33 +18,7 @@ class PenukaranSampahController extends Controller
      */
     public function index()
     {
-        $title = 'Riwayat Penukaran Sampah';
-        return view('page.admin.riwayat.penukaranSampah', compact('title'));
-    }
 
-    public function getPenukaranSampah(Request $request)
-    {
-        try {
-            if ($request->ajax()) {
-                $data = PenukaranSampah::with("users", "jenissampah")->get();
-
-                return DataTables::of($data)
-                    ->addColumn('id', function ($row) {
-                        static $index = 0;
-                        $index++;
-                        return $index;
-                    })
-                    ->addColumn('user_id', function ($row) {
-                        return $row->users->name;
-                    })
-                    ->addColumn('jenis_sampah_id', function ($row) {
-                        return $row->jenissampah->jenis_sampah;
-                    })
-                    ->make(true);
-            }
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error while showing data: ' . $e->getMessage());
-        }
     }
 
     /**
@@ -56,9 +28,26 @@ class PenukaranSampahController extends Controller
      */
     public function create()
     {
-        $user = User::where("role_user_id", 1)->get();
+        return view('page.inputSampah.index');
+    }
+
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('/penukaran/sampah/form');
+        }
+
+        return redirect()->route('login.penukaran')->withErrors(['email' => 'Invalid login credentials']);
+    }
+
+    public function createPenukaran()
+    {
+
         $jenissampah = JenisSampah::get();
-        return view('page.admin.penukaranSampah.create', compact('user', 'jenissampah'));
+        return view('page.inputSampah.create', compact('jenissampah'));
     }
 
     /**
@@ -69,12 +58,15 @@ class PenukaranSampahController extends Controller
      */
     public function store(Request $request)
     {
+
         try {
             $request->validate([
-                'nama' => 'required',
+                'user_id' => 'required',
                 'jenis_sampah_id' => 'required',
                 'jumlah_sampah' => 'required',
             ]);
+
+
 
             $sampah = new PenukaranSampah();
             $sampah->user_id = $request->input('user_id');
@@ -83,15 +75,18 @@ class PenukaranSampahController extends Controller
             $poin = $request->input('jumlah_sampah');
             if ($request->input('jenis_sampah_id') == 1) {
                 $sampah->jumlah_point = $poin * 2;
+                $poin =$poin*2;
             } elseif($request->input('jenis_sampah_id') == 2) {
                 $sampah->jumlah_point = $poin * 3;
+                $poin =$poin*3;
             }else{
                 $sampah->jumlah_point = $poin * 5;
+                $poin =$poin*5;
             }
             $sampah->save();
-
-            Alert::success('Berhasil', 'Data berhasil ditambah');
-            return redirect()->to('/dashboard/admin/riwayat-penukaran-sampah');
+            Alert::success('Berhasil', 'Anda mendapatkan poin sebanyak '. $poin);
+            Auth::logout();
+            return redirect()->to('/penukaran/sampah');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error while create data sampah ' . $e->getMessage());
         }
@@ -140,10 +135,5 @@ class PenukaranSampahController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function export()
-    {
-        return Excel::download(new RiwayatPenukaranSampahExport, 'Rekap Penukaran Sampah Menjadi Poin.xlsx');
     }
 }

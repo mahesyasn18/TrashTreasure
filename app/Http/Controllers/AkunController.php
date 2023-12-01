@@ -29,7 +29,7 @@ class AkunController extends Controller
                     $item->created_at_formatted = Carbon::parse($item->created_at)->format('d F Y');
                     return $item;
                 });
-            
+
                 return Datatables::of($data)
                     ->addColumn('id', function($row) {
                         static $index = 0;
@@ -65,7 +65,7 @@ class AkunController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        User::create([ 
+        User::create([
             'role_user_id' => 1,
             'name' => $request->name,
             'email' => $request->email,
@@ -94,7 +94,7 @@ class AkunController extends Controller
             'name' => 'required|string|max:200|min:3',
             'email' => 'required|string|min:3|email|unique:users,email,'.$data->id,
             'password' => $request->filled('password') ? 'min:8|confirmed' : 'nullable',
-        ]);                                                     
+        ]);
 
         $data->update([
             'name' => $request->name,

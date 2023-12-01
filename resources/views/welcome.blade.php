@@ -45,36 +45,36 @@
                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                               Logout
                               </a>
-      
-  
+
+
                           </li>
                               <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                               @csrf
                               </form>
-      
+
                               @else
                               <li class="nav-item">
-  
+
                                   <a href="{{ route('login') }}" class="nav-link" >Log in</a>
                               </li>
                                   @if (Route::has('register'))
                                   <li class="nav-item">
-  
+
                                       <a href="{{ route('register') }}"class="nav-link" >Register</a>
                                   </li>
                                   @endif
                           @endauth
-  
+
                   @endif
                   </ul>
                 </div>
               </nav>
-        
+
 
             <div class="">
                 <div class="card">
                     <div class="card-body">
-                      Halo User
+                     Welcome To TrashTreasure!
                     </div>
                   </div>
             </div>
