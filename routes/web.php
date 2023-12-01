@@ -30,7 +30,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'dashboard/admin'], function () {
+Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['checkUserRole']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::group(['prefix' => 'profile'], function () {

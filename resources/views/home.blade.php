@@ -31,8 +31,16 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-
+                        
                         {{ __('You are logged in!') }}
+                        <a href="{{ url('/logout') }}" class="text-sm text-gray-700 dark:text-gray-500 underline ml-2"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                        </a>
+
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                        @csrf
+                        </form>
                     </div>
                 </div>
             </div>
