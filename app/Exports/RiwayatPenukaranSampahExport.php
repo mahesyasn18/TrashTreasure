@@ -15,7 +15,6 @@ class RiwayatPenukaranSampahExport implements FromCollection, WithHeadings
     public function collection()
     {
         $penukaranSampahCollection = PenukaranSampah::with("users", "jenissampah")->select("user_id","jenis_sampah_id", "jumlah_sampah", "jumlah_point", "created_at")->get();
-        // Append "kg" to the "jumlah_sampah" values and format the date
         $penukaranSampahCollection->map(function ($item) {
             $item->jumlah_sampah .= ' kg';
             $item->created_at = Carbon::parse($item->created_at)->format('d-m-Y H:i:s');

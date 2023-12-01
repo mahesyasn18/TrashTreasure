@@ -56,7 +56,7 @@ class PenukaranSampahController extends Controller
      */
     public function create()
     {
-        $user = User::where("role_user_id", 2)->get();
+        $user = User::where("role_user_id", 1)->get();
         $jenissampah = JenisSampah::get();
         return view('page.admin.penukaranSampah.create', compact('user', 'jenissampah'));
     }
