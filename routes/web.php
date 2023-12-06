@@ -11,6 +11,7 @@ use App\Http\Controllers\PenukaranPoinController;
 use App\Http\Controllers\PenukaranSampahController;
 use App\Http\Controllers\ProsesPenukaranSampah;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UsersDashboardController;
 use App\Models\JenisSampah;
 use App\Models\PenukaranPoin;
 
@@ -70,3 +71,6 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['checkUserRole']],
     Route::post('/riwayat-penukaran-sampah-list', [PenukaranSampahController::class, 'getPenukaranSampah'])->name('penukaran-sampah-list');
     Route::get('/sampah/export', [PenukaranSampahController::class, 'export'])->name('export.sampah');
 });
+
+
+Route::resource('/users/dashboard', UsersDashboardController::class);

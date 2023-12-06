@@ -25,8 +25,7 @@ class CheckUserRole
                 return $next($request);
             }
 
-            // Jika role_user_id tidak valid, Anda dapat mengarahkan pengguna ke halaman tertentu atau memberikan respons lainnya.
-            return redirect('/');
+            return redirect('/users/dashboard');
         }
 
         return redirect()->route('login');
