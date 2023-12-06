@@ -1,4 +1,4 @@
-@extends('layouts.base_admin.base_dashboard')
+@extends('layouts.base_user.base_user')
 @section('judul', 'Penukaran Poin')
 @section('script_head')
 @endsection
@@ -35,13 +35,10 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3 class="card-title">{{$title}} Table</h3>
-                <a href="{{route('export.point')}}" class="btn btn-success">Export <i class="far fa-file-excel"></i></a>
-            </div>
         </div>
         <div class="card-body p-0" style="margin: 20px">
-
+            <div class="mb-4">
+            </div>
             <table
                 id="myTable"
                 class="table table-striped table-bordered display"
@@ -51,8 +48,10 @@
                         <th class="text-center">No</th>
                         <th class="text-center">Tanggal</th>
                         <th class="text-center w-25">Nama Pembuang Sampah</th>
-                        <th class="text-center">Jumlah Uang</th>
+                        <th class="text-center w-25">Jenis Sampah</th>
+                        <th class="text-center">Jumlah Sampah</th>
                         <th class="text-center">Jumlah Poin</th>
+
                     </tr>
                 </thead>
             </table>
@@ -71,7 +70,7 @@
             "serverSide": true,
             "processing": true,
             "ajax": {
-                "url": "{{ route('penukaran-poin-list') }}",
+                "url": "{{ route('users-penukaran-sampah-list') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": {
@@ -79,6 +78,7 @@
                 }
             },
             "columns": [
+                { "data": "id", "className": "text-center"},
                 {
                     "data": "created_at",
                     "className": "text-center",
@@ -88,11 +88,12 @@
                         return date.toLocaleDateString('id-ID', options);
                     }
                 },
-                { "data": "id", "className": "text-center"},
                 { "data": "user_id", "className": "text-center" },
-                { "data": "jumlah_uang", "className": "text-center"
+                { "data": "jenis_sampah_id", "className": "text-center" },
+                { "data": "jumlah_sampah"
                 },
-                { "data": "jumlah_poin", "className": "text-center" },
+                { "data": "jumlah_point", "className": "text-center" },
+
             ],
         });
     });

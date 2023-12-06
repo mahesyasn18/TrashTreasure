@@ -11,6 +11,7 @@ use App\Http\Controllers\PenukaranPoinController;
 use App\Http\Controllers\PenukaranSampahController;
 use App\Http\Controllers\ProsesPenukaranSampah;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UserHistorySampahController;
 use App\Http\Controllers\UsersDashboardController;
 use App\Models\JenisSampah;
 use App\Models\PenukaranPoin;
@@ -74,3 +75,5 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['checkUserRole']],
 
 
 Route::resource('/users/dashboard', UsersDashboardController::class);
+Route::get('/users/riwayat-penukaran-sampah', [UserHistorySampahController::class, 'index'])->name('users.sampah.history');
+Route::post('/users/dashboard/riwayat-penukaran-sampah-list', [UserHistorySampahController::class, 'getPenukaranSampah'])->name('users-penukaran-sampah-list');

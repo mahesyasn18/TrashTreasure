@@ -25,6 +25,13 @@ $links = [
         ]
     ],
 
+    [
+        "href" => route('users.sampah.history'),
+        "text" => "Penukaran Sampah",
+        "icon" => "fas fa-history",
+        "is_multi" => false
+    ],
+
 
 ];
 $navigation_links = json_decode(json_encode($links));
