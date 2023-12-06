@@ -1,86 +1,30 @@
 @php
 $links = [
     [
-        "href" => route('home'),
+        "href" => route('dashboard.index'),
         "text" => "Dasboard",
         "icon" => "fas fa-home",
         "is_multi" => false
     ],
+
     [
-        "text" => "Kelola Akun",
-        "icon" => "fas fa-users",
-        "is_multi" => true,
-        "href" => [
-            [
-                "section_text" => "Data Akun",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('users.index')
-            ],
-            [
-                "section_text" => "Tambah Akun",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('users.create')
-            ]
-        ]
-    ],
-    [
-        "text" => "Riwayat",
-        "icon" => "fas fa-history",
-        "is_multi" => true,
-        "href" => [
-            [
-                "section_text" => "Penukaran Sampah",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('riwayat-penukaran-sampah.index')
-            ],
-            [
-                "section_text" => "Penukaran Poin",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('riwayat-penukaran-poin.index')
-            ]
-        ]
-    ],
-    [
-        "text" => "Kelola News",
+        "text" => "Poin",
         "icon" => "fas fa-newspaper",
         "is_multi" => true,
         "href" => [
             [
-                "section_text" => "News",
+                "section_text" => "History",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('news.index')
             ],
             [
-                "section_text" => "Tambah News",
+                "section_text" => "Tukar Poin",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('news.create')
             ]
         ]
     ],
-    [
-        "text" => "Kelola Tags",
-        "icon" => "fas fa-newspaper",
-        "is_multi" => false,
-        "href" => route('news-category.index')
-    ],
-    [
-        "href" => route('sampah.index'),
-        "text" => "Kelola Jenis Sampah",
-        "icon" => "fas fa-trash",
-        "is_multi" => false
-    ],
-    [
-        "href" => route('drop-point.index'),
-        "text" => "Kelola Drop Point",
-        "icon" => "fas fa-circle",
-        "is_multi" => false
-    ],
-    [
-        "href" => route('profile'),
-        "text" => "Profil",
-        "icon" => "fas fa-user",
-        "is_multi" => false
-    ],
+
 
 ];
 $navigation_links = json_decode(json_encode($links));

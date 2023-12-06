@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete("cascade");
+            $table->foreignId('jenis_sampah_id')->nullable();
+            $table->foreign('jenis_sampah_id')->references('id')->on('jenis_sampahs')->onDelete("cascade");
             $table->integer("jumlah_sampah");
             $table->integer("jumlah_point");
             $table->timestamps();

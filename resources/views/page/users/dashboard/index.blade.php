@@ -1,5 +1,15 @@
-@extends('layouts.base_admin.base_dashboard')
-@section('judul', 'Halaman Dashboard')
+@extends('layouts.base_user.base_user')
+@section('judul', 'Penukaran Poin')
+@section('script_head')
+@endsection
+
+<style>
+.swal2-default-outline:focus{
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+</style>
+
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -31,7 +41,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        
+
                         {{ __('You are logged in!') }}
                         <a href="{{ url('/logout') }}" class="text-sm text-gray-700 dark:text-gray-500 underline ml-2"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -47,5 +57,10 @@
         </div>
     </div>
 </section>
+@endsection
 
+@section('script_footer')
+<script>
+
+</script>
 @endsection

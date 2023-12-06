@@ -5,8 +5,9 @@ namespace App\Exports;
 use App\Models\PenukaranPoin;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class RiwayatPenukaranPoinExport implements FromCollection
+class RiwayatPenukaranPoinExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection

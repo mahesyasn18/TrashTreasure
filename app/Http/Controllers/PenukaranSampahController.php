@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exports\RiwayatPenukaranSampahExport;
+use App\Models\JenisSampah;
 use App\Models\PenukaranSampah;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
 class PenukaranSampahController extends Controller
@@ -25,7 +28,7 @@ class PenukaranSampahController extends Controller
     {
         try {
             if ($request->ajax()) {
-                $data = PenukaranSampah::with("users")->get();
+                $data = PenukaranSampah::with("users", "jenissampah")->get();
 
                 return DataTables::of($data)
                     ->addColumn('id', function ($row) {
@@ -35,6 +38,9 @@ class PenukaranSampahController extends Controller
                     })
                     ->addColumn('user_id', function ($row) {
                         return $row->users->name;
+                    })
+                    ->addColumn('jenis_sampah_id', function ($row) {
+                        return $row->jenissampah->jenis_sampah;
                     })
                     ->make(true);
             }
@@ -50,7 +56,7 @@ class PenukaranSampahController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -61,7 +67,7 @@ class PenukaranSampahController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -111,6 +117,6 @@ class PenukaranSampahController extends Controller
 
     public function export()
     {
-        return Excel::download(new RiwayatPenukaranSampahExport, 'users.xlsx');
+        return Excel::download(new RiwayatPenukaranSampahExport, 'Rekap Penukaran Sampah Menjadi Poin.xlsx');
     }
 }

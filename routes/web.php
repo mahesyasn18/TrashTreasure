@@ -9,7 +9,9 @@ use App\Http\Controllers\JenisSampahController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PenukaranPoinController;
 use App\Http\Controllers\PenukaranSampahController;
+use App\Http\Controllers\ProsesPenukaranSampah;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UsersDashboardController;
 use App\Models\JenisSampah;
 use App\Models\PenukaranPoin;
 
@@ -30,7 +32,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'dashboard/admin'], function () {
+Route::get('/penukaran/sampah',  [ProsesPenukaranSampah::class, 'create'])->name('login.penukaran');
+Route::get('/penukaran/sampah/form',  [ProsesPenukaranSampah::class, 'createPenukaran']);
+Route::post('/penukaran/sampah',  [ProsesPenukaranSampah::class, 'login'])->name('process.login');
+Route::post('/penukaran/sampah/form',  [ProsesPenukaranSampah::class, 'store'])->name('penukaran.stores');
+
+Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['checkUserRole']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::group(['prefix' => 'profile'], function () {
@@ -64,3 +71,6 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
     Route::post('/riwayat-penukaran-sampah-list', [PenukaranSampahController::class, 'getPenukaranSampah'])->name('penukaran-sampah-list');
     Route::get('/sampah/export', [PenukaranSampahController::class, 'export'])->name('export.sampah');
 });
+
+
+Route::resource('/users/dashboard', UsersDashboardController::class);

@@ -14,13 +14,12 @@ class RiwayatPenukaranSampahExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        $penukaranSampahCollection = PenukaranSampah::with("users")->select("user_id", "jumlah_sampah", "jumlah_point", "created_at")->get();
-
-        // Append "kg" to the "jumlah_sampah" values and format the date
+        $penukaranSampahCollection = PenukaranSampah::with("users", "jenissampah")->select("user_id","jenis_sampah_id", "jumlah_sampah", "jumlah_point", "created_at")->get();
         $penukaranSampahCollection->map(function ($item) {
             $item->jumlah_sampah .= ' kg';
             $item->created_at = Carbon::parse($item->created_at)->format('d-m-Y H:i:s');
             $item->nama = $item->users->name;
+            $item->jenis = $item->jenissampah->jenis_sampah;
 
             return $item;
         });
@@ -30,6 +29,6 @@ class RiwayatPenukaranSampahExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['user_id', 'jumlah_sampah', 'jumlah_point', 'created_at', 'nama']; // Change 'Tanggal' to 'created_at'
+        return ['user_id', 'jumlah_sampah', 'jumlah_point', 'created_at', 'nama', 'jenis_sampah']; // Change 'Tanggal' to 'created_at'
     }
 }
