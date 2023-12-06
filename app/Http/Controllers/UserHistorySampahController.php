@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\JenisSampah;
 use App\Models\PenukaranSampah;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
-class UsersDashboardController extends Controller
+class UserHistorySampahController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +17,34 @@ class UsersDashboardController extends Controller
      */
     public function index()
     {
-        return view('page.users.dashboard.index');
+        $title = 'Riwayat Penukaran Sampah';
+        return view('page.users.penukaranSampah.index', compact('title'));
     }
 
+    public function getPenukaranSampah(Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $data = PenukaranSampah::with("users", "jenissampah")->where("user_id", Auth()->user()->id)->get();
 
+                return DataTables::of($data)
+                    ->addColumn('id', function ($row) {
+                        static $index = 0;
+                        $index++;
+                        return $index;
+                    })
+                    ->addColumn('user_id', function ($row) {
+                        return $row->users->name;
+                    })
+                    ->addColumn('jenis_sampah_id', function ($row) {
+                        return $row->jenissampah->jenis_sampah;
+                    })
+                    ->make(true);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error while showing data: ' . $e->getMessage());
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

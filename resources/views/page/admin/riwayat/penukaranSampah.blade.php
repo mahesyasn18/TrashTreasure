@@ -51,10 +51,12 @@
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
+                        <th class="text-center">Tanggal</th>
                         <th class="text-center w-25">Nama Pembuang Sampah</th>
                         <th class="text-center w-25">Jenis Sampah</th>
                         <th class="text-center">Jumlah Sampah</th>
                         <th class="text-center">Jumlah Poin</th>
+
                     </tr>
                 </thead>
             </table>
@@ -82,6 +84,15 @@
             },
             "columns": [
                 { "data": "id", "className": "text-center"},
+                {
+                    "data": "created_at",
+                    "className": "text-center",
+                    "render": function (data) {
+                        var date = new Date(data);
+                        var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+                        return date.toLocaleDateString('id-ID', options);
+                    }
+                },
                 { "data": "user_id", "className": "text-center" },
                 { "data": "jenis_sampah_id", "className": "text-center" },
                 { "data": "jumlah_sampah"
