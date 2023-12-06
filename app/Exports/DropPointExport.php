@@ -27,7 +27,7 @@ class DropPointExport implements FromCollection
 
     public function headings(): array
     {
-        return ["nama", "alamat", "created_at", "created_at"]; // Change 'Tanggal' to 'created_at'
+        return ["nama", "alamat", "created_at", "updated_at"]; // Change 'Tanggal' to 'created_at'
     }
 
     
