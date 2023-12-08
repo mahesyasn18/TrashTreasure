@@ -8,27 +8,27 @@ $links = [
     ],
 
     [
-        "text" => "Poin",
+        "text" => "Riwayat",
         "icon" => "fas fa-newspaper",
         "is_multi" => true,
         "href" => [
             [
-                "section_text" => "History",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('news.index')
+                "section_text" => "Penukaran Sampah",
+                "section_icon" => "far fa-history",
+                "section_href" => route('users.sampah.history')
             ],
             [
-                "section_text" => "Tukar Poin",
-                "section_icon" => "far fa-circle",
-                "section_href" => route('news.create')
+                "section_text" => "Penukaran Poin",
+                "section_icon" => "far fa-history",
+                "section_href" => route('poin')
             ]
         ]
     ],
 
     [
-        "href" => route('users.sampah.history'),
-        "text" => "Penukaran Sampah",
-        "icon" => "fas fa-history",
+        "href" => route('poin'),
+        "text" => "Tukar Poin",
+        "icon" => "fas fa-circle",
         "is_multi" => false
     ],
 

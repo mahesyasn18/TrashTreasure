@@ -9,4 +9,9 @@ class Poin extends Model
 {
     use HasFactory;
     protected $fillable = ["user_id", "jumlah_poin"];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

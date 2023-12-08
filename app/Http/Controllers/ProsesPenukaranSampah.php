@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JenisSampah;
-use App\Models\PenukaranSampah;
+use App\Models\Poin;
 use App\Models\User;
+use App\Models\JenisSampah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\PenukaranSampah;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -66,8 +68,6 @@ class ProsesPenukaranSampah extends Controller
                 'jumlah_sampah' => 'required',
             ]);
 
-
-
             $sampah = new PenukaranSampah();
             $sampah->user_id = $request->input('user_id');
             $sampah->jenis_sampah_id = $request->input('jenis_sampah_id');
@@ -84,11 +84,35 @@ class ProsesPenukaranSampah extends Controller
                 $poin =$poin*5;
             }
             $sampah->save();
+
+            $this->updatePoin($sampah->user_id, $poin);
+
+
+            // ELOQUENT NYA GAADA
             Alert::success('Berhasil', 'Anda mendapatkan poin sebanyak '. $poin);
             Auth::logout();
             return redirect()->to('/penukaran/sampah');
         } catch (\Exception $e) {
+            
+            dd('test');
             return redirect()->back()->with('error', 'Error while create data sampah ' . $e->getMessage());
+        }
+    }
+
+    public function updatePoin($user_id, $input_poin){
+
+        $poin = Poin::where('user_id', $user_id)->first();
+
+        if ($poin) {
+            // If a record is found, update the existing record
+            $poin->jumlah_poin += $input_poin;
+            $poin->save();
+        } else {
+            // If no record is found, create a new record
+            $new_poin = new Poin();
+            $new_poin->user_id = $user_id;
+            $new_poin->jumlah_poin = $input_poin;
+            $new_poin->save();
         }
     }
 

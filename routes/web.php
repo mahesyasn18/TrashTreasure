@@ -9,6 +9,7 @@ use App\Http\Controllers\JenisSampahController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PenukaranPoinController;
 use App\Http\Controllers\PenukaranSampahController;
+use App\Http\Controllers\ProsesPenukaranPoinController;
 use App\Http\Controllers\ProsesPenukaranSampah;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\UserHistorySampahController;
@@ -37,6 +38,12 @@ Route::get('/penukaran/sampah',  [ProsesPenukaranSampah::class, 'create'])->name
 Route::get('/penukaran/sampah/form',  [ProsesPenukaranSampah::class, 'createPenukaran']);
 Route::post('/penukaran/sampah',  [ProsesPenukaranSampah::class, 'login'])->name('process.login');
 Route::post('/penukaran/sampah/form',  [ProsesPenukaranSampah::class, 'store'])->name('penukaran.stores');
+
+// Route::get('/penukaran/poin',  [ProsesPenukaranPoinController::class, 'create'])->name('login.penukaran');
+// Route::get('/penukaran/poin/form',  [ProsesPenukaranPoinController::class, 'createPenukaran']);
+// Route::post('/penukaran/poin',  [ProsesPenukaranPoinController::class, 'login'])->name('process.login');
+Route::get('/penukaran/poin',  [ProsesPenukaranPoinController::class, 'getPoin'])->name('poin');
+Route::post('/penukaran/poin/form',  [ProsesPenukaranPoinController::class, 'store'])->name('poin.stores');
 
 Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['checkUserRole']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');

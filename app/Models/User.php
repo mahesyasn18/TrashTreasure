@@ -61,4 +61,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(PenukaranSampah::class, 'user_id');
     }
+
+    public function poin()
+    {
+        return $this->has(Poin::class, 'user_id');
+    }
+
 }
