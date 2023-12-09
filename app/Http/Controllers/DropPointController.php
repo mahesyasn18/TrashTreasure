@@ -19,7 +19,7 @@ class DropPointController extends Controller
     public function index()
     {
         $title = 'Drop Point';
-        $data = DropPoint::all(); // or any other method to get the data
+        $data = DropPoint::all();
         return view('page.admin.drop_points.index', compact('title', 'data'));
     }
 
@@ -56,7 +56,7 @@ class DropPointController extends Controller
 
     public function create()
     {
-        
+
     }
 
     /**
@@ -123,16 +123,16 @@ class DropPointController extends Controller
                 'nama' => 'required',
                 'alamat' => 'required',
             ]);
-    
+
             $dpoint = DropPoint::find($id);
             if (!$dpoint) {
                 return redirect()->back()->with('error', 'Data not found.');
             }
-    
+
             $dpoint->nama = $request->input('nama');
             $dpoint->alamat = $request->input('alamat');
             $dpoint->save();
-    
+
             Alert::success('Berhasil', 'Data berhasil diupdate');
             return redirect()->back();
         } catch (\Exception $e) {

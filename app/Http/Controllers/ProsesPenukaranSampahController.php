@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Poin;
-use App\Models\User;
 use App\Models\JenisSampah;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\PenukaranSampah;
+use App\Models\Poin;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class ProsesPenukaranSampah extends Controller
+class ProsesPenukaranSampahController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +18,7 @@ class ProsesPenukaranSampah extends Controller
      */
     public function index()
     {
-
+        //
     }
 
     /**
@@ -87,13 +85,11 @@ class ProsesPenukaranSampah extends Controller
 
             $this->updatePoin($sampah->user_id, $poin);
 
-
-            // ELOQUENT NYA GAADA
             Alert::success('Berhasil', 'Anda mendapatkan poin sebanyak '. $poin);
             Auth::logout();
             return redirect()->to('/penukaran/sampah');
         } catch (\Exception $e) {
-            
+
             dd('test');
             return redirect()->back()->with('error', 'Error while create data sampah ' . $e->getMessage());
         }

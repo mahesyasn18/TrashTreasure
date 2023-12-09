@@ -10,12 +10,10 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PenukaranPoinController;
 use App\Http\Controllers\PenukaranSampahController;
 use App\Http\Controllers\ProsesPenukaranPoinController;
-use App\Http\Controllers\ProsesPenukaranSampah;
+use App\Http\Controllers\ProsesPenukaranSampahController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\UserHistorySampahController;
 use App\Http\Controllers\UsersDashboardController;
-use App\Models\JenisSampah;
-use App\Models\PenukaranPoin;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,10 +32,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/penukaran/sampah',  [ProsesPenukaranSampah::class, 'create'])->name('login.penukaran');
-Route::get('/penukaran/sampah/form',  [ProsesPenukaranSampah::class, 'createPenukaran']);
-Route::post('/penukaran/sampah',  [ProsesPenukaranSampah::class, 'login'])->name('process.login');
-Route::post('/penukaran/sampah/form',  [ProsesPenukaranSampah::class, 'store'])->name('penukaran.stores');
+Route::get('/penukaran/sampah',  [ProsesPenukaranSampahController::class, 'create'])->name('login.penukaran');
+Route::get('/penukaran/sampah/form',  [ProsesPenukaranSampahController::class, 'createPenukaran']);
+Route::post('/penukaran/sampah',  [ProsesPenukaranSampahController::class, 'login'])->name('process.login');
+Route::post('/penukaran/sampah/form',  [ProsesPenukaranSampahController::class, 'store'])->name('penukaran.stores');
 
 // Route::get('/penukaran/poin',  [ProsesPenukaranPoinController::class, 'create'])->name('login.penukaran');
 // Route::get('/penukaran/poin/form',  [ProsesPenukaranPoinController::class, 'createPenukaran']);

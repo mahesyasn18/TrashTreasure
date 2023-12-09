@@ -27,14 +27,14 @@ class ProsesPenukaranPoinController extends Controller
      */
     public function create()
     {
-        return view('page.inputPoin.create');
+        return view('page.users.inputPoin.create');
     }
 
     public function getPoin()
     {
         $poin = Poin::where('user_id', auth()->user()->id)->first();
 
-        return view('page.inputPoin.create', compact('poin'));
+        return view('page.users.inputPoin.create', compact('poin'));
     }
 
     /**
@@ -52,7 +52,7 @@ class ProsesPenukaranPoinController extends Controller
                 'jumlah_poin' => 'required',
             ]);
 
-            
+
             $poin = new PenukaranPoin();
             $poin->user_id = $request->input('user_id');
             $poin->jumlah_poin = $request->input('jumlah_poin');
@@ -64,9 +64,9 @@ class ProsesPenukaranPoinController extends Controller
             $poins->save();
 
             Alert::success('Berhasil', 'Anda mendapatkan uang sebanyak '. $poin->jumlah_uang);
-            
+
             return redirect()->to('/users/dashboard');
-            
+
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error while create data poin ' . $e->getMessage());
         }

@@ -1,33 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Penukaran Poin Jadi Uang | Trash Treasure</title>
-        <!-- Style -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <!-- Google Font: Source Sans Pro -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ asset('vendor/adminlte3/plugins/fontawesome-free/css/all.min.css') }}">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="{{ asset('vendor/adminlte3/css/adminlte.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('vendor/adminlte3/css/adminlte.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('vendor/adminlte3/css/adminlte.min.css') }}">
-        <!-- dataTables -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-        @yield('script_head')
-    </head>
+@extends('layouts.base_user.base_user')
+@section('judul', 'Penukaran Poin')
+@section('script_head')
+@endsection
 
-    <body>
-        <section class="content-header">
-            <div class="container-fluid d-flex align-items-center justify-content-center">
+<style>
+.swal2-default-outline:focus{
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+</style>
 
-                <h1>Penukaran Poin Menjadi Uang</h1>
-
-            </div>
-            <!-- /.container-fluid -->
-        </section>
+@section('content')
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Penukaran Poin Menjadi Uang</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+            <li class="breadcrumb-item active">Penukaran Poin Menjadi Uang</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+</section>
 
         <!-- Main content -->
         <section class="content container-fluid d-flex align-items-center justify-content-center">
@@ -61,18 +60,16 @@
                             <p>No points available.</p>
                         @endif
                     </div>
+                    <h6 class="text-success text-bold">Note:</h6>
+                    <p class="text-success text-bold">1 poin = Rp. 100</p>
 
                 </div>
 
                 <!-- /.card-body -->
             </div>
         </section>
-        <!-- jQuery -->
-        <script src="{{ asset('vendor/adminlte3/plugins/jquery/jquery.min.js') }}"></script>
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        @include('sweetalert::alert')
-        @yield('script_footer')
-        
-    </body>
-</html>
 
+@endsection
+@section('script_footer')
+<script></script>
+@endsection
