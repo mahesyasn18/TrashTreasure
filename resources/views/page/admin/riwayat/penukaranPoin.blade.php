@@ -79,6 +79,8 @@
                 }
             },
             "columns": [
+
+                { "data": "id", "className": "text-center"},
                 {
                     "data": "created_at",
                     "className": "text-center",
@@ -88,7 +90,6 @@
                         return date.toLocaleDateString('id-ID', options);
                     }
                 },
-                { "data": "id", "className": "text-center"},
                 { "data": "user_id", "className": "text-center" },
                 { "data": "jumlah_uang", "className": "text-center"
                 },

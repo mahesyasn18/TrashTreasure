@@ -47,7 +47,7 @@
                     <tr>
                         <th class="text-center">No</th>
                         <th class="text-center">Tanggal</th>
-                        <th class="text-center w-25">Nama Pembuang Sampah</th>
+
                         <th class="text-center w-25">Jenis Sampah</th>
                         <th class="text-center">Jumlah Sampah</th>
                         <th class="text-center">Jumlah Poin</th>
@@ -88,7 +88,7 @@
                         return date.toLocaleDateString('id-ID', options);
                     }
                 },
-                { "data": "user_id", "className": "text-center" },
+
                 { "data": "jenis_sampah_id", "className": "text-center" },
                 { "data": "jumlah_sampah"
                 },

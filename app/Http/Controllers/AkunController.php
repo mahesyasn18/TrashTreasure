@@ -59,6 +59,7 @@ class AkunController extends Controller
 
     public function store(Request $request)
     {
+        try{
         $request->validate([
             'name' => 'required|string|max:200|min:3',
             'email' => 'required|string|min:3|email|unique:users,email',
@@ -74,6 +75,10 @@ class AkunController extends Controller
 
         Alert::success('Berhasil', 'Data berhasil ditambah');
         return redirect()->route('users.index');
+    } catch (\Exception $e) {
+        Alert::error('Error', 'Error while showing data users: ' . $e->getMessage());
+        return redirect()->back();
+    }
     }
 
     public function edit($id)
@@ -88,6 +93,7 @@ class AkunController extends Controller
 
     public function update($id, Request $request)
     {
+        try{
         $data = User::find($id);
 
         $request->validate([
@@ -104,6 +110,10 @@ class AkunController extends Controller
 
         Alert::success('Berhasil', 'Data berhasil ditambah');
         return redirect()->route('users.index');
+    } catch (\Exception $e) {
+        Alert::error('Error', 'Error while showing data users: ' . $e->getMessage());
+        return redirect()->back();
+    }
     }
 
     public function destroy($id)
