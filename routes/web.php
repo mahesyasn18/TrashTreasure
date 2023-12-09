@@ -12,6 +12,7 @@ use App\Http\Controllers\PenukaranSampahController;
 use App\Http\Controllers\ProsesPenukaranPoinController;
 use App\Http\Controllers\ProsesPenukaranSampahController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UserHistoryPoinController;
 use App\Http\Controllers\UserHistorySampahController;
 use App\Http\Controllers\UsersDashboardController;
 
@@ -37,9 +38,7 @@ Route::get('/penukaran/sampah/form',  [ProsesPenukaranSampahController::class, '
 Route::post('/penukaran/sampah',  [ProsesPenukaranSampahController::class, 'login'])->name('process.login');
 Route::post('/penukaran/sampah/form',  [ProsesPenukaranSampahController::class, 'store'])->name('penukaran.stores');
 
-// Route::get('/penukaran/poin',  [ProsesPenukaranPoinController::class, 'create'])->name('login.penukaran');
-// Route::get('/penukaran/poin/form',  [ProsesPenukaranPoinController::class, 'createPenukaran']);
-// Route::post('/penukaran/poin',  [ProsesPenukaranPoinController::class, 'login'])->name('process.login');
+
 Route::get('/penukaran/poin',  [ProsesPenukaranPoinController::class, 'getPoin'])->name('poin');
 Route::post('/penukaran/poin/form',  [ProsesPenukaranPoinController::class, 'store'])->name('poin.stores');
 
@@ -76,9 +75,13 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['checkUserRole']],
     Route::resource('riwayat-penukaran-sampah', PenukaranSampahController::class);
     Route::post('/riwayat-penukaran-sampah-list', [PenukaranSampahController::class, 'getPenukaranSampah'])->name('penukaran-sampah-list');
     Route::get('/sampah/export', [PenukaranSampahController::class, 'export'])->name('export.sampah');
+
 });
 
 
 Route::resource('/users/dashboard', UsersDashboardController::class);
 Route::get('/users/riwayat-penukaran-sampah', [UserHistorySampahController::class, 'index'])->name('users.sampah.history');
 Route::post('/users/dashboard/riwayat-penukaran-sampah-list', [UserHistorySampahController::class, 'getPenukaranSampah'])->name('users-penukaran-sampah-list');
+
+Route::get('/users/riwayat-penukaran-poin', [UserHistoryPoinController::class, 'index'])->name('users.poin.history');
+Route::post('/users/dashboard/riwayat-penukaran-poin-list', [UserHistoryPoinController::class, 'getPenukaranPoin'])->name('users-penukaran-poin-list');

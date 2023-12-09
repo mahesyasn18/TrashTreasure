@@ -20,7 +20,7 @@ $links = [
             [
                 "section_text" => "Penukaran Poin",
                 "section_icon" => "far fa-history",
-                "section_href" => route('poin')
+                "section_href" => route('users.poin.history')
             ]
         ]
     ],
