@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Models\News;
 
 class NewsSeeder extends Seeder
 {
@@ -15,23 +16,25 @@ class NewsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('news')->truncate();
-        DB::table('news')->insert([
+        News::truncate();
+        News::create([
             [
                 'title'   => 'Berita 1',
-                'cover'   => 'default.png',
+                'cover'   => 'cover.png',
                 'content' => 'ini adalah berita 1'
             ],
             [
                 'title'   => 'Berita 2',
-                'cover'   => 'default.png',
+                'cover'   => 'cover.png',
                 'content' => 'ini adalah berita 2'
             ],
             [
                 'title'   => 'Berita 3',
-                'cover'   => 'default.png',
+                'cover'   => 'cover.png',
                 'content' => 'ini adalah berita 3'
             ],
         ]);
+
+        Log::info('NewsSeeder is running successfully');
     }
 }

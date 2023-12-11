@@ -130,7 +130,6 @@
                             class="custom-file-input"
                             id="exampleInputFile"
                             accept=".png, .jpg, .jpeg"
-                            required
                         />
                         <label class="custom-file-label" for="exampleInputFile"
                             >Choose file</label

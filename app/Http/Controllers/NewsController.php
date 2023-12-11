@@ -11,6 +11,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\NewsExport;
 use App\Imports\NewsImport;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\NewsRequest;
 
 
 class NewsController extends Controller
@@ -23,6 +26,7 @@ class NewsController extends Controller
     public function index()
     {
         $title = 'News';
+        Log::info('Showing index news page.');
         return view("page.admin.news.index", compact('title'));
     }
 
@@ -33,7 +37,7 @@ class NewsController extends Controller
                 $data = News::with('tags')->get();
 
                 return Datatables::of($data)
-                    ->addColumn('id', function($row) {
+                    ->addColumn('id', function($news) {
                         static $index = 0;
                         $index++;
                         return $index;
@@ -57,6 +61,7 @@ class NewsController extends Controller
                     ->make(true);
             }
         }catch(\Exception $e){
+            Log::error("Error while showing data : ".$e->getMessage());
             return redirect()->back()->with('error', 'Error while showing data: ' . $e->getMessage());
         }
     }
@@ -69,6 +74,7 @@ class NewsController extends Controller
     public function create()
     {
         $tags = Tags::all();
+        Log::info('Showing create news page.');
         return view("page.admin.news.create", compact('tags'));
     }
 
@@ -78,14 +84,9 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewsRequest $request)
     {
-            $request->validate([
-                'title' => 'required',
-                'content' => 'required',
-                'tags' => 'array',
-            ]);
-
+        try {
             $cover = $request->file('cover');
             $coverPath = $cover->store('covers', 'public');
 
@@ -97,9 +98,30 @@ class NewsController extends Controller
 
             $tags = $request->input('tags');
             $news->tags()->attach($tags);
+            $tagNames = $news->tags->pluck('nama')->toArray();
+
+            Log::info('News data saved successfully.', [
+                'user_id' => Auth::user()->id,
+                'title' => $news->title,
+                'tags' => $tagNames,
+                'image_cover' => $news->cover,
+                'content' => $news->content,
+            ]);
 
             Alert::success('Berhasil', 'Data berhasil ditambah');
             return redirect()->route('news.index');
+
+        } catch (\Exception $e) {
+            Log::error('Failed to store news data: ' . $e->getMessage(), [
+                'user_id' => Auth::user()->id,
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            Alert::error('Gagal', 'Terjadi kesalahan saat menyimpan data.');
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -129,8 +151,10 @@ class NewsController extends Controller
                 return redirect()->back()->with('error', 'Data news tidak ditemukan.');
             }
 
+            Log::info('Showing edit news page.');
             return view("page.admin.news.edit", ['data' => $data, 'tags' => $tags]);
         } catch (\Exception $e) {
+            Log::error("Error while showing data : ".$e->getMessage());
             return redirect()->back()->with('error', 'Error while showing news data: ' . $e->getMessage());
         }
     }
@@ -143,7 +167,7 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(NewsRequest $request, $id)
     {
         try {
             $news = News::find($id);
@@ -151,12 +175,6 @@ class NewsController extends Controller
             if (!$news) {
                 return redirect()->back()->with('error', 'Data news tidak ditemukan.');
             }
-
-            $request->validate([
-                'title' => 'required',
-                'content' => 'required',
-                'tags' => 'array',
-            ]);
 
             // Update the news data
             $news->title = $request->input('title');
@@ -177,10 +195,27 @@ class NewsController extends Controller
             // Update the associated tags
             $tags = $request->input('tags');
             $news->tags()->sync($tags);
+            $tagNames = $news->tags->pluck('nama')->toArray();
+
+            Log::info('News data has been successfully changed.', [
+                'user_id' => Auth::user()->id,
+                'title' => $news->title,
+                'tags' => $tagNames,
+                'image_cover' => $news->cover,
+                'content' => $news->content,
+            ]);
 
             Alert::success('Berhasil', 'Data berhasil diubah');
             return redirect()->route('news.index');
+            
         } catch (\Exception $e) {
+            Log::error('Failed to update news data: ' . $e->getMessage(), [
+                'user_id' => Auth::user()->id,
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             Alert::error('Error', 'Error while updating data news: ' . $e->getMessage());
             return redirect()->back();
         }
@@ -204,23 +239,59 @@ class NewsController extends Controller
 
             Storage::delete('public/' . $news->cover);
             $news->delete();
+            $tagNames = $news->tags->pluck('nama')->toArray();
+
+            Log::info('News data has been successfully deleted.', [
+                'user_id' => Auth::user()->id,
+                'title' => $news->title,
+                'tags' => $tagNames,
+                'image_cover' => $news->cover,
+                'content' => $news->content,
+            ]);
 
             return response()->json([
                 'msg' => 'Data yang dipilih telah dihapus'
             ]);
 
         }catch(\Exception $e){
+            Log::error('Failed to delete news data: ' . $e->getMessage(), [
+                'user_id' => Auth::user()->id,
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             return redirect()->back()->with('error', 'Error while deleting data news: ' . $e->getMessage());
         }
     }
 
     public function importNews(Request $request){
-        Excel::import(new NewsImport, 
-                      $request->file('file')->store('files'));
-        return redirect()->back();
+        try{
+            Log::info('News data has been successfully imported.', [
+                'user_id' => Auth::user()->id
+            ]);
+
+            Excel::import(new NewsImport, $request->file('file')->store('files'));
+
+            return redirect()->back();
+        }catch(\Exception $e){
+            Log::error('Failed to import news data: ' . $e->getMessage(), [
+                'user_id' => Auth::user()->id,
+            ]);
+        }
     }
 
     public function exportNews(Request $request){
-        return Excel::download(new NewsExport, 'news.xlsx');
+        try{
+            Log::info('News data has been successfully exported.', [
+                'user_id' => Auth::user()->id
+            ]);
+            return Excel::download(new NewsExport, 'news.xlsx');
+
+        }catch(\Exception $e){
+            Log::error('Failed to export news data: ' . $e->getMessage(), [
+                'user_id' => Auth::user()->id,
+            ]);
+        }
     }
 }
