@@ -141,7 +141,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <img src="{{ asset('storage/' . $data->cover) }}" alt="cover" class="img-fluid img-thumbnail">
+                <a>Gambar saat ini : </a>
+                <img src="{{ asset('storage/' . $data->image->url) }}" alt="cover" class="img-fluid img-thumbnail">
             </div>
 
 

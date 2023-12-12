@@ -14,12 +14,17 @@ class NewsImport implements ToModel
     */
     public function model(array $row)
     {
-        return new News([
+        $news = new News([
             'title'      => $row[0],
-            'cover'      => $row[1],
-            'content'    => $row[2],
-            'created_at' => $row[3],
-            'updated_at' => $row[4],
+            'content'    => $row[1],
+            'created_at' => $row[2],
+            'updated_at' => $row[3],
         ]);
+
+        $news->save();
+        $news->image()->create([
+            'url' => $row[4],
+        ]);
+        return $news;
     }
 }

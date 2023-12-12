@@ -14,7 +14,7 @@ use App\Imports\NewsImport;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\NewsRequest;
-
+use App\Models\Image;
 
 class NewsController extends Controller
 {
@@ -43,12 +43,12 @@ class NewsController extends Controller
                         return $index;
                     })
                     ->addColumn('cover', function ($news) {
-                        if($news->cover == 'cover.png'){
+                        if($news->image->url == 'cover.png'){
                             $coverUrl = asset('img/default2.png');
                         }else{
-                            $coverUrl = asset('storage/' . $news->cover);
+                            $coverUrl = asset('storage/' . $news->image->url);
                         }
-                        return "<img class='img-fluid img-thumbnail' src='" . $coverUrl . "' alt='Image' style='width: 100px;'>";
+                        return "<img class='img-fluid img-thumbnail' src='" . $coverUrl . "' alt='".$news->image->url."' style='width: 100px;'>";
                     })
                     ->addColumn('tags', function ($news) {
                         return $news->tags->pluck('nama')->implode(', ');
@@ -87,14 +87,15 @@ class NewsController extends Controller
     public function store(NewsRequest $request)
     {
         try {
-            $cover = $request->file('cover');
-            $coverPath = $cover->store('covers', 'public');
+            $coverPath = $request->file('cover')->store('covers', 'public');
 
             $news = new News();
             $news->title = $request->input('title');
-            $news->cover = $coverPath;
             $news->content = $request->input('content');
             $news->save();
+
+            $image = new Image(['url' => $coverPath]);
+            $news->image()->save($image);
 
             $tags = $request->input('tags');
             $news->tags()->attach($tags);
@@ -104,7 +105,7 @@ class NewsController extends Controller
                 'user_id' => Auth::user()->id,
                 'title' => $news->title,
                 'tags' => $tagNames,
-                'image_cover' => $news->cover,
+                'image_cover' => $news->image->url,
                 'content' => $news->content,
             ]);
 
@@ -176,23 +177,17 @@ class NewsController extends Controller
                 return redirect()->back()->with('error', 'Data news tidak ditemukan.');
             }
 
-            // Update the news data
             $news->title = $request->input('title');
             $news->content = $request->input('content');
 
             if ($request->hasFile('cover')) {
-                // Handle the cover image update
-                $newCover = $request->file('cover');
-                $coverPath = $newCover->store('covers', 'public');
-
-                Storage::delete('public/' . $news->cover);
-
-                $news->cover = $coverPath;
+                Storage::delete('public/' . $news->image->url);
+                $coverPath = $request->file('cover')->store('covers', 'public');
+                $news->image()->updateOrCreate([], ['url' => $coverPath]);
             }
 
             $news->save();
 
-            // Update the associated tags
             $tags = $request->input('tags');
             $news->tags()->sync($tags);
             $tagNames = $news->tags->pluck('nama')->toArray();
@@ -201,7 +196,7 @@ class NewsController extends Controller
                 'user_id' => Auth::user()->id,
                 'title' => $news->title,
                 'tags' => $tagNames,
-                'image_cover' => $news->cover,
+                'image_cover' => $news->image->url,
                 'content' => $news->content,
             ]);
 
@@ -237,7 +232,8 @@ class NewsController extends Controller
                 return redirect()->back()->with('error', 'Data news tidak ditemukan.');
             }
 
-            Storage::delete('public/' . $news->cover);
+            $news->image->url != 'cover.png' ? Storage::delete('public/' . $news->image->url) : null;
+            $news->image->delete();
             $news->delete();
             $tagNames = $news->tags->pluck('nama')->toArray();
 
@@ -245,7 +241,7 @@ class NewsController extends Controller
                 'user_id' => Auth::user()->id,
                 'title' => $news->title,
                 'tags' => $tagNames,
-                'image_cover' => $news->cover,
+                'image_cover' => $news->image->url,
                 'content' => $news->content,
             ]);
 

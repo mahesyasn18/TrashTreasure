@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Image;
 
 class HomeController extends Controller
 {
@@ -45,20 +46,16 @@ class HomeController extends Controller
                     'user_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:1024',
                     'phone_number' => 'max:13|min:10',
                 ]);
-                $img_old = Auth::user()->user_image;
-                if ($request->file('user_image')) {
-                    # delete old img
-                    if ($img_old && file_exists(public_path().$img_old)) {
-                        unlink(public_path().$img_old);
-                    }
-                    $nama_gambar = time() . '_' . $request->file('user_image')->getClientOriginalName();
-                    Storage::put('public/profiles/'. $nama_gambar, $request->file('user_image')->get());
-                    $img_old = $nama_gambar;
+
+                if ($request->hasFile('user_image')) {
+                    $usr->image?->url ? Storage::delete('public/' . $usr->image->url) : null;
+                    $coverPath = $request->file('user_image')->store('profiles', 'public');
+                    $usr->image()->updateOrCreate([], ['url' => $coverPath]);
                 }
+
                 $usr->update([
                         'name' => $request->name,
                         'email' => $request->email,
-                        'user_image' => $img_old,
                         'phone_number' => $request->phone_number,
                         'account_number' => $request->account_number,
                         'address' => $request->address

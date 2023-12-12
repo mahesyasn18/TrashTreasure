@@ -19,7 +19,7 @@
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                     <img
-                        src="{{ Auth::user()->user_image ? asset('storage/profiles/' . Auth::user()->user_image) : asset('img/default.png') }}"
+                        src="{{ Auth::user()->image->url ? asset('storage/' . Auth::user()->image->url) : asset('img/default.png') }}"
                         class="user-image img-circle elevation-2"
                         alt="User Images">
                     <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
@@ -28,7 +28,7 @@
                         <!-- User image -->
                         <li class="user-header bg-primary">
                             <img
-                            src="{{ Auth::user()->user_image ? asset('storage/profiles/' . Auth::user()->user_image) : asset('img/default.png') }}"
+                            src="{{ Auth::user()->image->url ? asset('storage/' . Auth::user()->image->url) : asset('img/default.png') }}"
                             class="img-circle elevation-2"
                             alt="User Imagess">
                             <p>

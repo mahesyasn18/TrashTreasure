@@ -32,7 +32,7 @@
                     <div class="card-body box-profile">
                         <div class="text-center">
                             <img
-                                src="{{ Auth::user()->user_image ? asset('storage/profiles/' . Auth::user()->user_image) : asset('img/default.png') }}"
+                                src="{{ Auth::user()->image->url ? asset('storage/' . Auth::user()->image->url) : asset('img/default.png') }}"
                                 class="profile-user-img img-fluid img-circle"
                                 alt="User Images">
                         </div>
@@ -215,7 +215,7 @@
                                                                 <img
                                                                     class="elevation-3"
                                                                     id="prevImg"
-                                                                    src="{{ Auth::user()->user_image ? asset('storage/profiles/' . Auth::user()->user_image) : asset('img/default.png') }}"
+                                                                    src="{{ Auth::user()->image->url ? asset('storage/' . Auth::user()->image->url) : asset('img/default.png') }}"
                                                                     width="150px"/>
                                                             </div>
                                                             <div class="col-md-6">
